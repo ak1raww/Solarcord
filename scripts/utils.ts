@@ -50,6 +50,7 @@ export interface PluginData {
     filePath: string;
     dirName: string;
     isModified: boolean;
+    isIllegalcord: boolean;
 }
 
 export const devs = {} as Record<string, Dev>;
@@ -131,6 +132,37 @@ export function parseEquicordDevs() {
     throw new Error("Could not find EquicordDevs constant");
 }
 
+export function parseSolarcordDevs() {
+    const file = createSourceFile("constants.ts", readFileSync("src/utils/constants.ts", "utf8"), ScriptTarget.Latest);
+
+    for (const child of file.getChildAt(0).getChildren()) {
+        if (!isVariableStatement(child)) continue;
+
+        const devsDeclaration = child.declarationList.declarations.find(d => hasName(d, "SolarcordDevs"));
+        if (!devsDeclaration?.initializer || !isCallExpression(devsDeclaration.initializer)) continue;
+
+        const value = devsDeclaration.initializer.arguments[0];
+
+        if (!isSatisfiesExpression(value) || !isObjectLiteralExpression(value.expression)) throw new Error("Failed to parse SolarcordDevs: not an object literal");
+
+        for (const prop of value.expression.properties) {
+            const name = (prop.name as Identifier).text;
+            const value = isPropertyAssignment(prop) ? prop.initializer : prop;
+
+            if (!isObjectLiteralExpression(value)) throw new Error(`Failed to parse SolarcordDevs: ${name} is not an object literal`);
+
+            equicordDevs[name] = {
+                name: (getObjectProp(value, "name") as StringLiteral).text,
+                id: (getObjectProp(value, "id") as BigIntLiteral).text.slice(0, -1)
+            };
+        }
+
+        return;
+    }
+
+    throw new Error("Could not find SolarcordDevs constant");
+}
+
 export async function parseFile(fileName: string) {
     const file = createSourceFile(fileName, await readFile(fileName, "utf8"), ScriptTarget.Latest);
 
@@ -153,6 +185,7 @@ export async function parseFile(fileName: string) {
             enabledByDefault: false,
             required: false,
             isModified: false,
+            isIllegalcord: false,
             tags: [] as string[],
             searchTerms: [] as string[],
         } as PluginData;
@@ -225,6 +258,7 @@ export async function parseFile(fileName: string) {
                     break;
                 case "required":
                 case "isModified":
+                case "isIllegalcord":
                 case "enabledByDefault":
                     data[key] = value.kind === SyntaxKind.TrueKeyword;
                     break;

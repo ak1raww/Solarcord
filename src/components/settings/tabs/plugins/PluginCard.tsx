@@ -36,6 +36,8 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     const isVencordPlugin = pluginMeta.folderName.startsWith("src/plugins/") ?? false;
     const isUserPlugin = pluginMeta?.userPlugin ?? false;
     const isModifiedPlugin = plugin.isModified ?? false;
+    const isSolarcordPlugin = pluginMeta.folderName.startsWith("src/solarcordplugins/") ?? false;
+    const isIllegalcordPlugin = plugin.isIllegalcord ?? false;
 
     const isEnabled = () => isPluginEnabled(plugin.name);
 
@@ -107,6 +109,18 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             src: "https://equicord.org/assets/icons/vencord/icon-light.png",
             alt: "Vencord",
             title: "Vencord Plugin"
+        },
+        {
+            condition: isIllegalcordPlugin,
+            src: "https://imgur.com/MuNY0Jn.png",
+            alt: "Solarcord & Illegalcord",
+            title: "Solarcord & Illegalcord Plugin"
+        },
+        {
+            condition: isSolarcordPlugin,
+            src: "https://imgur.com/qmlmDi6.png",
+            alt: "Solarcord",
+            title: "Solarcord Plugin"
         },
         {
             condition: isUserPlugin,

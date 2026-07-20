@@ -243,6 +243,7 @@ export interface PluginDef {
      * A Vencord plugin that is modified for extra features in Equicord
      */
     isModified?: boolean;
+    isIllegalcord?: boolean;
 }
 
 export const enum StartAt {
