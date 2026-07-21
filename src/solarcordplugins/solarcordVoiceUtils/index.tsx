@@ -163,7 +163,7 @@ function getGuildIdFromNode(node: Element | null): string | null {
     return null;
 }
 
-function findVoiceUserRow(target: Element | null): Element | null {
+function findVoiceUserRow(target: Element | null): HTMLElement | null {
     if (!target) return null;
     const selectors = [
         '[class*="voiceUser_"]',
@@ -174,19 +174,19 @@ function findVoiceUserRow(target: Element | null): Element | null {
     ];
     for (const sel of selectors) {
         const row = target.closest(sel);
-        if (row) return row;
+        if (row) return row as HTMLElement;
     }
     return null;
 }
 
-function findVoiceChannel(target: Element | null): Element | null {
+function findVoiceChannel(target: Element | null): HTMLElement | null {
     if (!target) return null;
     const channelEl = target.closest('[class*="containerDefault_"]') || target.closest('[class*="containerDefault__"]');
     if (!channelEl) return null;
 
     const channel = getChannelFromNode(channelEl);
     if (channel && (channel.type === 2 || channel.type === 13)) {
-        return channelEl;
+        return channelEl as HTMLElement;
     }
     return null;
 }
@@ -487,7 +487,7 @@ const UserContextMenuPatch: NavContextMenuPatchCallback = (children, { user, gui
             PermissionStore.can(PermissionsBits.CONNECT, ch)
         );
 
-    const menuItems = [];
+    const menuItems: any[] = [];
 
     if (voiceChannels.length > 0) {
         const moveItems = voiceChannels.map(vc => (
@@ -516,9 +516,9 @@ const UserContextMenuPatch: NavContextMenuPatchCallback = (children, { user, gui
     children.splice(
         -1,
         0,
-        <Menu.MenuItem label={`SolarVoiceUtils (${selectedCount})`} key="solar-voiceutils" id="solar-voiceutils">
+        (<Menu.MenuItem label={`SolarVoiceUtils (${selectedCount})`} key="solar-voiceutils" id="solar-voiceutils">
             {menuItems}
-        </Menu.MenuItem>
+        </Menu.MenuItem>) as any
     );
 };
 
@@ -560,7 +560,7 @@ const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { chann
     children.splice(
         -1,
         0,
-        <Menu.MenuItem label="SolarVoiceUtils" key="solar-voiceutils" id="solar-voiceutils">
+        (<Menu.MenuItem label="SolarVoiceUtils" key="solar-voiceutils" id="solar-voiceutils">
             <Menu.MenuItem
                 key="solar-voiceutils-panic"
                 id="solar-voiceutils-panic"
@@ -568,7 +568,7 @@ const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { chann
                 action={handleAction}
                 color={hasUnmuted ? "danger" : undefined}
             />
-        </Menu.MenuItem>
+        </Menu.MenuItem>) as any
     );
 };
 
@@ -579,7 +579,7 @@ const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { chann
 export default definePlugin({
     name: "SolarVoiceUtils",
     description: "Porto il 'multi-user selection' di TeamSpeak su Discord, perchè loro non lo fanno. CTRL+Click per selezionare uno/più utenti.",
-    tags: ["Servers", "Voice", "Lampone gay"],
+    category: "Voice",
     authors: [SolarcordDevs.yiiky_],
 
     settings,
