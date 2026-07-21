@@ -9,12 +9,12 @@ import { HeaderBarButton } from "@api/HeaderBar";
 import { definePluginSettings } from "@api/Settings";
 import { compileStyle, disableStyle, enableStyle, isStyleEnabled, requireStyle } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { IllegalcordDevs } from "@utils/constants";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import type { Channel, Message, VoiceState } from "@vencord/discord-types";
 import { ApplicationStreamingStore, Menu, React, showToast, StreamerModeStore, Toasts, useEffect, UserStore, useState, useStateFromStores, VoiceStateStore } from "@webpack/common";
 
 import style from "./styles.css?managed";
-import { IllegalcordDevs } from "@utils/constants";
 
 const ProtectionMode = {
     Blur: "blur",
