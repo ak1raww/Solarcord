@@ -66,6 +66,13 @@ jobs:
                   rm release/*.map
 
             - name: Upload Solarcord Stable
-              if: ${{ vars.ACT == 'false' }}
-              run: |
-                  gh release upload latest --clobber dist/release/*
+              uses: softprops/action-gh-release@v2
+              with:
+                  tag_name: latest
+                  name: "latest"
+                  body: "Automated Solarcord build"
+                  files: dist/release/*
+                  overwrite: true
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
