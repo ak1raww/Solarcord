@@ -14,6 +14,7 @@ import type { Channel, Message, VoiceState } from "@vencord/discord-types";
 import { ApplicationStreamingStore, Menu, React, showToast, StreamerModeStore, Toasts, useEffect, UserStore, useState, useStateFromStores, VoiceStateStore } from "@webpack/common";
 
 import style from "./styles.css?managed";
+import { IllegalcordDevs } from "@utils/constants";
 
 const ProtectionMode = {
     Blur: "blur",
@@ -512,7 +513,7 @@ const SafeStreamProofHeaderButton = () => <WrappedStreamProofHeaderButton />;
 export default definePlugin({
     name: "StreamProofEnhanched",
     description: "Hides sensitive chat content while screen sharing.",
-    authors: [{ name: "irritably", id: 928787166916640838n }],
+    authors: [IllegalcordDevs.irritably],
     dependencies: ["ChatInputButtonAPI", "EquicordToolbox", "HeaderBarAPI", "MessageEventsAPI"],
     tags: ["Privacy", "Voice", "Chat"],
     enabledByDefault: true,
