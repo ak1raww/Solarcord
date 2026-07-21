@@ -12,6 +12,7 @@ import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { Menu } from "@webpack/common";
+import { IllegalcordDevs } from "@utils/constants";
 
 const MediaEngineActions = findByPropsLazy("toggleSelfMute");
 const NotificationSettingsStore = findByPropsLazy("getDisableAllSounds", "getState");
@@ -65,7 +66,7 @@ export default definePlugin({
     name: "FakeMuteAndDeafen",
     description: "You can fake mute and deafen yourself. You can continue speaking and being heard during this time.",
     tags: ["Voice", "Privacy"],
-    authors: [{ name: "irritably", id: 928787166916640838n }],
+    authors: [IllegalcordDevs.irritably],
     isIllegalcord: true,
     settings,
     modifyVoiceState(e) {

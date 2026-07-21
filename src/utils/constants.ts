@@ -1407,6 +1407,13 @@ export const SolarcordDevs = Object.freeze({
     },
 } satisfies Record<string, Dev>);
 
+export const IllegalcordDevs = Object.freeze({
+    irritably: {
+        name: "irritably",
+        id: 928787166916640838n
+    },
+} satisfies Record<string, Dev>);
+
 // iife so #__PURE__ works correctly
 export const VencordDevsById = /* #__PURE__*/ (() =>
     Object.freeze(Object.fromEntries(
