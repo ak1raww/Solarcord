@@ -25,7 +25,7 @@ import { Readable } from "stream";
 import { finished } from "stream/promises";
 import { fileURLToPath } from "url";
 
-const BASE_URL = "https://github.com/Equicord/Equilotl/releases/latest/download/";
+const BASE_URL = "https://github.com/ak1raww/Solari/releases/latest/download/";
 
 const BASE_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FILE_DIR = join(BASE_DIR, "dist", "Installer");
@@ -34,18 +34,18 @@ const ETAG_FILE = join(FILE_DIR, "etag.txt");
 function getFilename() {
     switch (process.platform) {
         case "win32":
-            return "EquilotlCli.exe";
+            return "SolariCli.exe";
         case "darwin":
             switch (process.arch) {
                 case "x64":
-                    return "EquilotlCli-x64";
+                    return "SolariCli-x64";
                 case "arm64":
-                    return "EquilotlCli-arm64";
+                    return "SolariCli-arm64";
                 default:
                     return "EquilotlCli-universal";
             }
         case "linux":
-            return "EquilotlCli-linux";
+            return "SolariCli-linux";
         default:
             throw new Error("Unsupported platform: " + process.platform);
     }
@@ -64,7 +64,7 @@ async function ensureBinary() {
 
     const res = await fetch(BASE_URL + filename, {
         headers: {
-            "User-Agent": "Equicord (https://github.com/Equicord/Equicord)",
+            "User-Agent": "Solarcord (https://github.com/ak1raww/Solarcord)",
             "If-None-Match": etag
         }
     });

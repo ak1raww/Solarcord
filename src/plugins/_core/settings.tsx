@@ -192,8 +192,8 @@ export default definePlugin({
         const equicordEntries: SettingsLayoutNode[] = [
             buildEntry({
                 key: "equicord_main",
-                title: "Equicord",
-                panelTitle: "Equicord Settings",
+                title: "Solarcord",
+                panelTitle: "Solarcord Settings",
                 Component: VencordTab,
                 Icon: MainSettingsIcon
             }),
@@ -247,7 +247,7 @@ export default definePlugin({
         const equicordSection: SettingsLayoutNode = {
             key: "equicord_section",
             type: LayoutTypes.SECTION,
-            useTitle: () => "Equicord Settings",
+            useTitle: () => "Solarcord Settings",
             buildLayout: () => equicordEntries
         };
 
