@@ -1,3 +1,9 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { SolarcordDevs } from "@utils/constants";
@@ -284,7 +290,7 @@ function onDragStart(e: DragEvent) {
         e.dataTransfer.setData("text/plain", JSON.stringify(selectedIds));
 
         const ghost = document.createElement("div");
-        ghost.textContent = `Moving ${selectedIds.length} user${selectedIds.length > 1 ? 's' : ''}`;
+        ghost.textContent = `Moving ${selectedIds.length} user${selectedIds.length > 1 ? "s" : ""}`;
         ghost.style.cssText = "position:fixed; background:#2b2d31; color:white; padding:6px 12px; border-radius:4px; font-size:14px; pointer-events:none; z-index:9999;";
         document.body.appendChild(ghost);
         e.dataTransfer.setDragImage(ghost, 0, 0);
