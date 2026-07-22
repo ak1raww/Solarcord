@@ -578,7 +578,7 @@ const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { chann
 
 export default definePlugin({
     name: "SolarVoiceUtils",
-    description: "Porto il 'multi-user selection' di TeamSpeak su Discord, perchè loro non lo fanno. CTRL+Click per selezionare uno/più utenti.",
+    description: "TeamSpeak-style multi-user selection to Discord voice channels, letting you Ctrl+Click multiple users and perform bulk actions (move, mute, deafen, disconnect) via context menu or drag‑and‑drop, with built‑in cooldown and request chunking.",
     category: "Voice",
     authors: [SolarcordDevs.yiiky_],
 

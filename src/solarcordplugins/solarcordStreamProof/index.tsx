@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+/*
+* Full credits to ImHisako/Illegalcord, legend.
+*/
+
 import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { HeaderBarButton } from "@api/HeaderBar";
 import { definePluginSettings } from "@api/Settings";
@@ -512,7 +516,7 @@ const SafeStreamProofHeaderButton = () => <WrappedStreamProofHeaderButton />;
 
 export default definePlugin({
     name: "StreamProofEnhanched",
-    description: "Hides sensitive chat content while screen sharing.",
+    description: "Automatically hides sensitive chat content (messages, media, usernames) with blur, dim, or blackout when screen sharing, with manual toggle, hover/click reveal, and per‑element protection controls.",
     authors: [IllegalcordDevs.irritably],
     dependencies: ["ChatInputButtonAPI", "EquicordToolbox", "HeaderBarAPI", "MessageEventsAPI"],
     tags: ["Privacy", "Voice", "Chat"],

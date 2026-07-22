@@ -35,3 +35,6 @@ ExtensionCache/
 
 # wakatime related stuff
 .wakatime-project
+
+# md editor files
+.obsidian
