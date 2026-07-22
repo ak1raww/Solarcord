@@ -5,8 +5,8 @@
  */
 
 /*
- * Full credits to ImHisako/Illegalcord, legend.
- */
+* Full credits to ImHisako/Illegalcord, legend.
+*/
 
 import { definePluginSettings } from "@api/Settings";
 import { IllegalcordDevs } from "@utils/constants";

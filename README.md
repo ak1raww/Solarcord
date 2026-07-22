@@ -18,13 +18,61 @@ Rather than replacing Equicord, Solarcord builds on top of it by maintaining ups
 
 Solarcord ships with all plugins provided by Equicord in addition to Solarcord-specific plugins.
 
+<details><summary> List of Solarcord (and other) Plugins: </summary><blockquote>
+
+  
+
+<details><summary> SolarVoiceUtils </summary><blockquote>
+
+TeamSpeak-style multi-user selection to Discord voice channels, letting you Ctrl+Click multiple users and perform bulk actions (move, mute, deafen, disconnect) via context menu or drag‑and‑drop, with built‑in cooldown and request chunking.
+
+</blockquote></details>
+
+  
+
+<details><summary> SolarGuildSelector </summary><blockquote>
+
+</blockquote></details>
+
+  
+
+<details><summary> StreamProofEnhanced (credits to ImHisako) </summary><blockquote>
+
+Automatically hides sensitive chat content (messages, media, usernames) with blur, dim, or blackout when screen sharing, with manual toggle, hover/click reveal, and per‑element protection controls.
+
+</blockquote></details>
+
+  
+
+<details><summary> FakeMuteAndDefean (credits to ImHisako)</summary><blockquote>
+
+Lets you fake your mute, deafen, and camera status in voice channels, appearing muted/deafened to others while still being able to speak and be heard.
+
+</blockquote></details>
+
+  
+
+---
+
+</blockquote></details>
+
 ## Installing Solarcord
 
-### Method 1: Solari
+---
 
-[Solari](https://github.com/ak1raww/Solari) is a fork of [Equilotl](https://github.com/Equicord/Equilotl) (the official installer for [Equicord](https://github.com/Equicord/Equicord)), modified **specifically** for **syncing** and installing **Solarcord** while **keeping official updates** from **Equicord**.
+### Method 1: Solari (RECOMMENDED IN 99% OF CASES)
 
+[Solari](https://github.com/ak1raww/Solari) is a fork of [Equilotl](https://github.com/Equicord/Equilotl) (the official installer for [Equicord](https://github.com/Equicord/Equicord)), modified **specifically** for **syncing** and installing **Solarcord** while **keeping both official updates** from **Equicord** and **Solarcord**.
 
+### Direct downloads:
+
+### Windows:
+- [SolariCli.exe](https://github.com/ak1raww/Solari/releases/latest/SolariCli.exe) (recommended, easier).
+- [Solari.exe](https://github.com/ak1raww/Solari/releases/latest/Solari.exe) (GUI).
+
+### Linux:
+- Check the [latest release](https://github.com/ak1raww/Solari/releases/latest).
+---
 
 ### Method 2: Build it yourself
 
@@ -105,7 +153,7 @@ Solarcord would not exist without the work of the following projects and contrib
 - [Vencord](https://github.com/Vendicated/Vencord)
 - [Vendicated](https://github.com/Vendicated)
 - [verticalsync](https://github.com/verticalsync)
-- [ImHisako](https://github.com/ImHisako) for the original **StreamProof** plugin from [Illegalcord](https://github.com/ImHisako/Illegalcord).
+- [ImHisako](https://github.com/ImHisako) for some of the plugins Solarcord uses, from [Illegalcord](https://github.com/ImHisako/Illegalcord).
 
 ## Disclaimer
 
