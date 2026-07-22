@@ -13,10 +13,10 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { CogWheel } from "@components/Icons";
 import { SolarcordDevs } from "@utils/constants";
 import {
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalRoot,
+    ModalCloseButton as ModalCloseButton_,
+    ModalContent as ModalContent_,
+    ModalHeader as ModalHeader_,
+    ModalRoot as ModalRoot_,
     ModalSize,
     openModal
 } from "@utils/modal";
@@ -38,6 +38,12 @@ import {
     UserStore,
     useStateFromStores
 } from "@webpack/common";
+import type { ComponentType, CSSProperties, ReactNode } from "react";
+
+const ModalRoot = ModalRoot_ as ComponentType<{ transitionState?: number; size?: string; children?: ReactNode }>;
+const ModalHeader = ModalHeader_ as ComponentType<{ separator?: boolean; children?: ReactNode }>;
+const ModalCloseButton = ModalCloseButton_ as ComponentType<{ onClick?: () => void }>;
+const ModalContent = ModalContent_ as ComponentType<{ style?: CSSProperties; children?: ReactNode }>;
 
 const { updateGuildNotificationSettings } = findByPropsLazy("updateGuildNotificationSettings");
 const { toggleShowAllChannels } = mapMangledModuleLazy(".onboardExistingMember(", {
@@ -69,7 +75,7 @@ function ApplyToAllButton() {
             color={Button.Colors.GREEN}
             onClick={() => {
                 const count = applyToAllGuilds();
-                showToast(`Impostazioni applicate a ${count} server.`, Toasts.Type.SUCCESS);
+                showToast(`Settings applied to ${count} servers.`, Toasts.Type.SUCCESS);
             }}
         >
             Apply Guild Settings To All Servers
@@ -79,12 +85,12 @@ function ApplyToAllButton() {
 
 const settings = definePluginSettings({
     guild: {
-        description: "Mute server automatically",
+        description: "Mute server automatically.",
         type: OptionType.BOOLEAN,
         default: true
     },
     messages: {
-        description: "Server notification settings",
+        description: "Server notification settings.",
         type: OptionType.SELECT,
         options: [
             { label: "All messages", value: 0 },
@@ -94,53 +100,53 @@ const settings = definePluginSettings({
         ]
     },
     everyone: {
-        description: "Suppress @everyone and @here",
+        description: "Suppress @everyone and @here.",
         type: OptionType.BOOLEAN,
         default: true
     },
     role: {
-        description: "Suppress all role @mentions",
+        description: "Suppress all role @mentions.",
         type: OptionType.BOOLEAN,
         default: true
     },
     highlights: {
-        description: "Suppress highlights automatically",
+        description: "Suppress highlights automatically.",
         type: OptionType.BOOLEAN,
         default: true
     },
     events: {
-        description: "Mute scheduled events automatically",
+        description: "Mute scheduled events automatically.",
         type: OptionType.BOOLEAN,
         default: true
     },
     showAllChannels: {
-        description: "Show all channels automatically",
+        description: "Show all channels automatically.",
         type: OptionType.BOOLEAN,
         default: true
     },
     mobilePush: {
-        description: "Mute mobile push notifications automatically",
+        description: "Mute mobile push notifications automatically.",
         type: OptionType.BOOLEAN,
         default: true
     },
     voiceChannels: {
-        description: "Hide names in voice channels automatically",
+        description: "Hide names in voice channels automatically.",
         type: OptionType.BOOLEAN,
         default: false
     },
     blacklistButton: {
-        description: "Gestisci la blacklist dei server esplicitamente silenziati",
+        description: "Manage the blacklist of explicitly muted servers.",
         type: OptionType.COMPONENT,
         component: OpenBlacklistModalButton
     },
     applyAllButton: {
-        description: "Applica le impostazioni correnti a tutti i server (escludendo la blacklist)",
+        description: "Apply current settings to all servers (excluding blacklisted ones).",
         type: OptionType.COMPONENT,
         component: ApplyToAllButton
     }
 }).withPrivateSettings<{ blacklist: Record<string, boolean> }>();
 
-const SETTINGS_KEYS: (keyof typeof settings.store)[] = ["blacklist"];
+const SETTINGS_KEYS: (keyof typeof settings.plain)[] = ["blacklist"];
 
 function isGuildBlacklisted(guildId: string): boolean {
     if (!guildId || !settings.store.blacklist) return false;
@@ -320,7 +326,7 @@ function GuildRow({ guild, isBlacklisted, onCloseModal }: GuildRowProps) {
                 onClick={handleNavigate}
                 style={{ marginLeft: "12px", flexShrink: 0 }}
             >
-                Vai al server
+                Go to server
             </Button>
         </div>
     );
@@ -352,7 +358,7 @@ function BlacklistModal({ transitionState, onClose }: BlacklistModalProps) {
             </ModalHeader>
             <ModalContent style={{ padding: "16px" }}>
                 <p style={{ color: "var(--text-muted)", fontSize: "14px", marginTop: 0, marginBottom: "16px", lineHeight: "1.4" }}>
-                    Abilitando la spunta su un server, verranno disattivate tutte le notifiche per quello specifico server (incluse menzioni di ruolo e personali, @here e @everyone).
+                    Enabling the checkbox on a server will disable all notifications for that specific server (including role and personal mentions, @here, and @everyone).
                 </p>
                 <ScrollerThin style={{ maxHeight: "420px", paddingRight: "8px" }}>
                     {sortedGuilds.map(guild => (
@@ -393,7 +399,7 @@ const makeContextMenuPatch = (shouldAddIcon: boolean): NavContextMenuPatchCallba
 
 export default definePlugin({
     name: "SolarNoGuildSpam",
-    description: "Reviewed version of Equicord's NewGuildSettings plugin. Added Server Blacklist and Apply Guild Settings to All Servers",
+    description: "Automatically configure server notification settings with server blacklist support.",
     tags: ["Servers", "Notifications"],
     authors: [SolarcordDevs.yiiky_],
     contextMenus: {
@@ -405,14 +411,14 @@ export default definePlugin({
             find: ",acceptInvite(",
             replacement: {
                 match: /INVITE_ACCEPT_SUCCESS.+?,(\i)=\i\?\.guild_id.+?;/,
-                replace: (m, guildId) => `${m}$self.applyDefaultSettings(${guildId});`
+                replace: "$&$self.applyDefaultSettings($1);"
             }
         },
         {
             find: "{joinGuild:",
             replacement: {
                 match: /guildId:(\i),lurker:(\i).{0,20}}\)\);/,
-                replace: (m, guildId, lurker) => `${m}if(!${lurker})$self.applyDefaultSettings(${guildId});`
+                replace: "$&if(!$2)$self.applyDefaultSettings($1);"
             }
         }
     ],
