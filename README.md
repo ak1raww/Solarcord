@@ -20,44 +20,41 @@ Solarcord ships with all plugins provided by Equicord in addition to Solarcord-s
 
 <details><summary> List of Solarcord (and other) Plugins: </summary><blockquote>
 
-  
-
 <details><summary> SolarVoiceUtils </summary><blockquote>
 
 TeamSpeak-style multi-user selection to Discord voice channels, letting you Ctrl+Click multiple users and perform bulk actions (move, mute, deafen, disconnect) via context menu or drag‑and‑drop, with built‑in cooldown and request chunking.
 
 </blockquote></details>
 
-  
+<details><summary> SolarAutoCopyUserId </summary><blockquote>
 
-<details><summary> SolarGuildSelector </summary><blockquote>
+Automatically copies user ID to clipboard via left-click or keybind on hover, with auto-focus, auto-paste, and floating ID pill support.
 
 </blockquote></details>
 
-  
+<details><summary> SolarNoGuildSpam </summary><blockquote>
 
-<details><summary> StreamProofEnhanced (credits to ImHisako) </summary><blockquote>
+Automatically configures notification settings, mutes optional server features, and hides voice channel usernames for newly joined servers while offering a management blacklist to fully mute specific servers.
+
+</blockquote></details>
+
+<details><summary> StreamProofEnhanced (full credits to ImHisako) </summary><blockquote>
 
 Automatically hides sensitive chat content (messages, media, usernames) with blur, dim, or blackout when screen sharing, with manual toggle, hover/click reveal, and per‑element protection controls.
 
 </blockquote></details>
 
-  
-
-<details><summary> FakeMuteAndDefean (credits to ImHisako)</summary><blockquote>
+<details><summary> FakeMuteAndDefean (full credits to ImHisako)</summary><blockquote>
 
 Lets you fake your mute, deafen, and camera status in voice channels, appearing muted/deafened to others while still being able to speak and be heard.
 
 </blockquote></details>
-
-  
 
 ---
 
 </blockquote></details>
 
 ## Installing Solarcord
-
 ---
 
 ### Method 1: Solari (RECOMMENDED IN 99% OF CASES)
@@ -153,6 +150,7 @@ Solarcord would not exist without the work of the following projects and contrib
 - [Vencord](https://github.com/Vendicated/Vencord)
 - [Vendicated](https://github.com/Vendicated)
 - [verticalsync](https://github.com/verticalsync)
+## Special thanks
 - [ImHisako](https://github.com/ImHisako) for some of the plugins Solarcord uses, from [Illegalcord](https://github.com/ImHisako/Illegalcord).
 
 ## Disclaimer
