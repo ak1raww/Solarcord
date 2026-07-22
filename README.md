@@ -64,8 +64,8 @@ Lets you fake your mute, deafen, and camera status in voice channels, appearing 
 ### Direct downloads:
 
 ### Windows:
-- [SolariCli.exe](https://github.com/ak1raww/Solari/releases/latest/SolariCli.exe) (recommended, easier).
-- [Solari.exe](https://github.com/ak1raww/Solari/releases/latest/Solari.exe) (GUI).
+- [SolariCli.exe](https://github.com/ak1raww/Solari/releases/download/latest/SolariCli.exe) (recommended, easier).
+- [Solari.exe](https://github.com/ak1raww/Solari/releases/download/latest/Solari.exe) (GUI).
 
 ### Linux:
 - Check the [latest release](https://github.com/ak1raww/Solari/releases/latest).
