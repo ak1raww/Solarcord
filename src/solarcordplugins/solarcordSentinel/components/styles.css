@@ -139,6 +139,34 @@
     padding: 0 12px;
 }
 
+.vc-sentry-target-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vc-sentry-search-result {
+    align-items: center;
+    color: var(--text-normal);
+    cursor: pointer;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 9px 10px;
+    text-align: left;
+}
+
+.vc-sentry-event-row {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px;
+    color: var(--text-normal);
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
 .vc-sentry-action:hover,
 .vc-sentry-filter:hover,
 .vc-sentry-target-pill:hover,
@@ -175,12 +203,6 @@
     color: var(--text-normal);
 }
 
-.vc-sentry-target-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
 .vc-sentry-target-id {
     font-size: 11px;
 }
@@ -201,17 +223,6 @@
     margin-top: 8px;
     max-height: 260px;
     overflow: auto;
-}
-
-.vc-sentry-search-result {
-    align-items: center;
-    color: var(--text-normal);
-    cursor: pointer;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: minmax(0, 1fr) auto;
-    padding: 9px 10px;
-    text-align: left;
 }
 
 .vc-sentry-search-result span {
@@ -245,17 +256,6 @@
     font-size: 12px;
 }
 
-.vc-sentry-event-row {
-    display: grid;
-    grid-template-columns: 88px minmax(0, 1fr);
-    gap: 12px;
-    padding: 10px;
-    color: var(--text-normal);
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
-}
-
 .vc-sentry-event-badge {
     align-self: start;
     border-radius: 6px;
@@ -267,10 +267,10 @@
 }
 
 .vc-sentry-event-message,
-.vc-sentry-event-message_edit,
-.vc-sentry-event-reaction_add,
-.vc-sentry-event-reaction_remove,
-.vc-sentry-event-reaction_remove_all {
+.vc-sentry-event-message-edit,
+.vc-sentry-event-reaction-add,
+.vc-sentry-event-reaction-remove,
+.vc-sentry-event-reaction-remove-all {
     background: var(--green-360);
 }
 
@@ -283,10 +283,10 @@
     background: var(--brand-500);
 }
 
-.vc-sentry-event-voice_join,
-.vc-sentry-event-voice_leave,
-.vc-sentry-event-voice_move,
-.vc-sentry-event-voice_update {
+.vc-sentry-event-voice-join,
+.vc-sentry-event-voice-leave,
+.vc-sentry-event-voice-move,
+.vc-sentry-event-voice-update {
     background: var(--orange-345);
 }
 
@@ -294,19 +294,19 @@
     background: #eb459e;
 }
 
-.vc-sentry-event-channel_create,
-.vc-sentry-event-channel_delete,
-.vc-sentry-event-channel_update,
-.vc-sentry-event-guild_member_add,
-.vc-sentry-event-guild_member_remove,
-.vc-sentry-event-guild_member_update,
-.vc-sentry-event-guild_update,
-.vc-sentry-event-role_create,
-.vc-sentry-event-role_delete,
-.vc-sentry-event-role_update,
-.vc-sentry-event-thread_create,
-.vc-sentry-event-thread_delete,
-.vc-sentry-event-thread_update {
+.vc-sentry-event-channel-create,
+.vc-sentry-event-channel-delete,
+.vc-sentry-event-channel-update,
+.vc-sentry-event-guild-member-add,
+.vc-sentry-event-guild-member-remove,
+.vc-sentry-event-guild-member-update,
+.vc-sentry-event-guild-update,
+.vc-sentry-event-role-create,
+.vc-sentry-event-role-delete,
+.vc-sentry-event-role-update,
+.vc-sentry-event-thread-create,
+.vc-sentry-event-thread-delete,
+.vc-sentry-event-thread-update {
     background: var(--red-400);
 }
 
@@ -552,7 +552,8 @@
     font-size: 12px;
 }
 
-@media (max-width: 720px) {
+/* stylelint-disable rule-empty-line-before */
+@media (width <=720px) {
 
     .vc-sentry-stats,
     .vc-sentry-target-grid,
@@ -574,3 +575,5 @@
         flex-direction: column;
     }
 }
+
+/* stylelint-enable rule-empty-line-before */
