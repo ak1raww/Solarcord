@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { SolarcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { findByPropsLazy, findStoreLazy } from "@webpack";
-import { ChannelStore,Constants, PermissionsBits, PermissionStore, RestAPI,UserStore } from "@webpack/common";
+import { ChannelStore, Constants, PermissionsBits, PermissionStore, RestAPI, UserStore } from "@webpack/common";
 
 const VoiceStateStore = findStoreLazy("VoiceStateStore");
 const VoiceActions = findByPropsLazy("toggleSelfMute");
@@ -45,8 +46,7 @@ export default definePlugin({
     name: "AutoUnmute",
     enabledByDefault: false,
     description: "Automatically unmutes and undeafens when you are server muted/deafened, if you have permissions",
-    authors: [{ name: "Bash",
-     id: 1327483363518582784n }],
+    authors: [SolarcordDevs.yiiky_],
 
     flux: {
         VOICE_STATE_UPDATES({ voiceStates }: { voiceStates: VoiceState[]; }) {
@@ -69,7 +69,7 @@ export default definePlugin({
                             try {
                                 await unmuteUserViaAPI(currentUserId, guildId);
                             } catch {
-                                try { VoiceActions.toggleSelfMute(); } catch {}
+                                try { VoiceActions.toggleSelfMute(); } catch { }
                             }
                         }, 100);
                     }
@@ -82,7 +82,7 @@ export default definePlugin({
                             try {
                                 await undeafenUserViaAPI(currentUserId, guildId);
                             } catch {
-                                try { VoiceActions.toggleSelfDeaf(); } catch {}
+                                try { VoiceActions.toggleSelfDeaf(); } catch { }
                             }
                         }, 100);
                     }
