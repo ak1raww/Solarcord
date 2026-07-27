@@ -23,10 +23,6 @@ import {
 
 const VoiceStateStore = findStoreLazy("VoiceStateStore");
 
-// ---------------------------------------------------------------------
-// Settings
-// ---------------------------------------------------------------------
-
 const settings = definePluginSettings({
     includeYourself: {
         type: OptionType.BOOLEAN,
@@ -40,10 +36,6 @@ const settings = definePluginSettings({
         markers: makeRange(1, 20),
     },
 });
-
-// ---------------------------------------------------------------------
-// Selection store
-// ---------------------------------------------------------------------
 
 const selected = new Set<string>();
 const listeners = new Set<() => void>();
@@ -77,10 +69,6 @@ export const SelectionStore = {
     },
 };
 
-// ---------------------------------------------------------------------
-// DOM helpers
-// ---------------------------------------------------------------------
-
 const HIGHLIGHT_CLASS = "solar-voiceutils-selected";
 const STYLE_ID = "solar-voiceutils-style";
 
@@ -101,7 +89,6 @@ function injectStyle() {
     document.head.appendChild(style);
 }
 
-// Helper per dividere gli array in chunk
 function chunkArray<T>(arr: T[], size: number): T[][] {
     if (size <= 0) return [arr];
     const chunks: T[][] = [];
@@ -221,10 +208,6 @@ function stopObserving() {
     mutationObserver = null;
 }
 
-// ---------------------------------------------------------------------
-// Selection events
-// ---------------------------------------------------------------------
-
 function onGlobalMouseDown(e: MouseEvent) {
     const target = e.target as HTMLElement;
     const row = findVoiceUserRow(target);
@@ -265,10 +248,6 @@ function onChannelSelect({ guildId }: { guildId: string | null; }) {
         SelectionStore.clear();
     }
 }
-
-// ---------------------------------------------------------------------
-// Drag & Drop visual tracking
-// ---------------------------------------------------------------------
 
 let dragData: string[] | null = null;
 let dragSourceGuildId: string | null = null;
@@ -325,10 +304,6 @@ function onDragEnd(e: DragEvent) {
     clearChannelOutlines();
 }
 
-// ---------------------------------------------------------------------
-// Global cooldown & bulk action helper
-// ---------------------------------------------------------------------
-
 let cooldownPromise: Promise<void> = Promise.resolve();
 
 function waitForCooldown(): Promise<void> {
@@ -341,10 +316,6 @@ function startCooldown(): void {
     setTimeout(() => resolve(), 2000);
 }
 
-/**
- * Process users in chunks with a global 2-second cooldown between chunks (actions).
- * Requests within a single chunk are processed sequentially with no delay.
- */
 async function performBulkAction(
     guildId: string,
     body: Record<string, any>,
@@ -355,7 +326,6 @@ async function performBulkAction(
     const chunks = chunkArray(userIds, limit);
 
     for (const chunk of chunks) {
-        // Wait for any active cooldown
         await waitForCooldown();
 
         for (const userId of chunk) {
@@ -370,22 +340,13 @@ async function performBulkAction(
             }
         }
 
-        // Trigger the cooldown after the chunk action is complete
         startCooldown();
     }
 }
 
-// ---------------------------------------------------------------------
-// Sequential Move Operations (used by drag & drop)
-// ---------------------------------------------------------------------
-
 async function moveUsers(guildId: string, userIds: string[], targetChannelId: string | null, limit: number) {
     await performBulkAction(guildId, { channel_id: targetChannelId }, userIds, limit);
 }
-
-// ---------------------------------------------------------------------
-// Bulk action helper for the context menu
-// ---------------------------------------------------------------------
 
 function getTargetUserIds(): string[] {
     const ids = Array.from(SelectionStore.get());
@@ -403,10 +364,6 @@ function sendPatch(guildId: string, body: Record<string, any>) {
     const max = settings.store.maxApiCallsPerAction;
     performBulkAction(guildId, body, userIds, max);
 }
-
-// ---------------------------------------------------------------------
-// API Interception
-// ---------------------------------------------------------------------
 
 let originalPatch: any = null;
 
@@ -432,13 +389,11 @@ function patchRestAPI() {
                     }
 
                     const maxCalls = settings.store.maxApiCallsPerAction;
-                    // The dragged user consumes one API call, so leave room for (maxCalls - 1) more
+
                     const remainingSlots = Math.max(0, maxCalls - 1);
                     const firstChunk = otherUserIds.slice(0, remainingSlots);
                     const remainingChunks = otherUserIds.slice(remainingSlots);
 
-                    // Call the original patch for the dragged user first,
-                    // then move the rest of the group with cooldown management.
                     const originalResult = originalPatch.apply(this, arguments);
                     originalResult.then(async () => {
                         if (firstChunk.length > 0) {
@@ -464,10 +419,6 @@ function unpatchRestAPI() {
         originalPatch = null;
     }
 }
-
-// ---------------------------------------------------------------------
-// Context menu – user-context
-// ---------------------------------------------------------------------
 
 interface UserContextProps {
     user: User;
@@ -522,31 +473,25 @@ const UserContextMenuPatch: NavContextMenuPatchCallback = (children, { user, gui
     );
 };
 
-// ---------------------------------------------------------------------
-// Context menu – channel-context
-// ---------------------------------------------------------------------
-
 interface VoiceChannelContextProps {
     channel: Channel;
 }
 
 const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { channel }: VoiceChannelContextProps) => {
-    // Solo per canali vocali e stage
+
     if (!channel || (channel.type !== 2 && channel.type !== 13)) return;
 
     const myId = UserStore.getCurrentUser().id;
     const voiceStatesObj = VoiceStateStore.getVoiceStatesForChannel(channel.id) || {};
     const voiceStates = Object.values(voiceStatesObj) as any[];
 
-    // Escludi se stessi dalla lista degli utenti target
     const otherUsers = voiceStates.filter(vs => vs.userId !== myId);
     if (otherUsers.length === 0) return;
 
-    // Determina se c'è almeno un utente non mutato lato server
     const hasUnmuted = otherUsers.some(vs => !vs.mute);
 
     const label = hasUnmuted ? "PANIC BUTTON" : "UNMUTE ALL";
-    const targetMuteState = hasUnmuted; // se ce ne sono di non mutati, muta tutti (true), altrimenti smuta (false)
+    const targetMuteState = hasUnmuted;
 
     const handleAction = () => {
         const otherUserIds = otherUsers.map(vs => vs.userId);
@@ -556,7 +501,6 @@ const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { chann
         performBulkAction(channel.guild_id, { mute: targetMuteState }, otherUserIds, max);
     };
 
-    // Aggiunge solo ed esclusivamente il sottomenu SolarVoiceUtils contenente il Panic Button
     children.splice(
         -1,
         0,
@@ -571,10 +515,6 @@ const VoiceChannelContextPatch: NavContextMenuPatchCallback = (children, { chann
         </Menu.MenuItem>) as any
     );
 };
-
-// ---------------------------------------------------------------------
-// Plugin definition
-// ---------------------------------------------------------------------
 
 export default definePlugin({
     name: "SolarVoiceUtils",
