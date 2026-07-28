@@ -38,6 +38,24 @@ Automatically configures notification settings, mutes optional server features, 
 
 </blockquote></details>
 
+<details><summary> SolarAutoUnmute </summary><blockquote>
+
+Automatically unmutes and undeafens when you are server muted/deafened, if you have permissions.
+
+</blockquote></details>
+
+<details><summary> SolarDiscordOptimizer </summary><blockquote>
+
+Optimize Discord spring animations, activity/member rendering, and background CPU usage.
+
+</blockquote></details>
+
+<details><summary> SolarSentinel </summary><blockquote>
+
+Monitor users/servers through a dashboard for moderation purposes.
+
+</blockquote></details>
+
 <details><summary> StreamProofEnhanced (full credits to ImHisako) </summary><blockquote>
 
 Automatically hides sensitive chat content (messages, media, usernames) with blur, dim, or blackout when screen sharing, with manual toggle, hover/click reveal, and per‑element protection controls.
