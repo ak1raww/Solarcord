@@ -43,7 +43,7 @@ async function undeafenUserViaAPI(userId: string, guildId: string): Promise<void
 }
 
 export default definePlugin({
-    name: "AutoUnmute",
+    name: "SolarAutoUnmute",
     enabledByDefault: false,
     description: "Automatically unmutes and undeafens when you are server muted/deafened, if you have permissions",
     authors: [SolarcordDevs.yiiky_],

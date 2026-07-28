@@ -40,9 +40,22 @@ Automatically copies user ID to clipboard via left-click or keybind on hover, wi
 Automatically configures notification settings, mutes optional server features, and hides voice channel usernames for newly joined servers while offering a management blacklist to fully mute specific servers.
 
 </blockquote></details>
-<details><summary> SolarNoGuildSpam </summary><blockquote>
 
-Automatically configures notification settings, mutes optional server features, and hides voice channel usernames for newly joined servers while offering a management blacklist to fully mute specific servers.
+<details><summary> SolarAutoUnmute </summary><blockquote>
+
+Automatically unmutes and undeafens when you are server muted/deafened, if you have permissions.
+
+</blockquote></details>
+
+<details><summary> SolarDiscordOptimizer </summary><blockquote>
+
+Optimize Discord spring animations, activity/member rendering, and background CPU usage.
+
+</blockquote></details>
+
+<details><summary> SolarSentinel </summary><blockquote>
+
+Monitor users/servers through a dashboard for moderation purposes.
 
 </blockquote></details>
 
