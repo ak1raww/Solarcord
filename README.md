@@ -68,18 +68,6 @@ Lets you fake your mute, deafen, and camera status in voice channels, appearing 
 
 </blockquote></details>
 
-<details><summary> SolarMic </summary><blockquote>
-
-This plugin allows you to further customize your microphone, and hopefully make it better.
-
-</blockquote></details>
-
-<details><summary> SolarStream </summary><blockquote>
-
-This plugin allows you to further customize your screen sharing.
-
-</blockquote></details>
-
 <details><summary> SolarDetector </summary><blockquote>
 
 Alerts (toast/notification + sound) when staff join or leave your VC.
