@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Emitter, MediaEngineStore, Patcher, types } from "../../_libs/philsPluginLibrary";
-import { patchConnectionAudioTransportOptions } from "../../_libs/philsPluginLibrary/patches/audio";
+import { Emitter, MediaEngineStore, Patcher, types } from "../../../_libs/philsPluginLibrary";
+import { patchConnectionAudioTransportOptions } from "../../../_libs/philsPluginLibrary/patches/audio";
 import { PluginInfo } from "../../solarcordBetterMic/constants";
 import { logger } from "../../solarcordBetterMic/logger";
 import { microphoneStore } from "../../solarcordBetterMic/stores";
