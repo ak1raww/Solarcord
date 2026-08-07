@@ -1,20 +1,8 @@
 /*
- * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { findGroupChildrenByChildId, type NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
@@ -25,6 +13,7 @@ import definePlugin, { OptionType } from "@utils/types";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { ChannelRTCStore, Forms, Menu, Modal, openModal, showToast, TextInput, Toasts, UserStore, useState } from "@webpack/common";
+import React from "react";
 
 import { Emitter, ScreenshareSettingsIcon } from "../../_libs/philsPluginLibrary";
 import { PluginInfo } from "../solarcordBetterStream/constants";
@@ -79,12 +68,22 @@ interface QuickQualityPreset {
 
 type NamedScreenshareProfile = ScreenshareProfile & { name: string; };
 
+interface IPatcher {
+    patch(): this;
+    unpatch(): void;
+    forceUpdateTransportationOptions(): void;
+    forceUpdateDesktopEncodingOptions?(): void;
+    forceUpdateDesktopSourceOptions?(): void;
+    hasActiveDesktopSource?(): boolean;
+}
+
 const quickQualityPresets = [
     { label: "Balanced 720p60", width: 1280, height: 720, framerate: 60, videoBitrate: 2500 },
     { label: "Default 1080p60", width: 1920, height: 1080, framerate: 60, videoBitrate: 5000 },
     { label: "Sharp 1080p75", width: 1920, height: 1080, framerate: 75, videoBitrate: 5000 },
     { label: "High 1440p144", width: 2560, height: 1440, framerate: 144, videoBitrate: 10000 },
 ] satisfies QuickQualityPreset[];
+
 const quickQualityPresetNames = new Set(quickQualityPresets.map(preset => preset.label));
 
 const quickResolutions = [
@@ -123,14 +122,15 @@ function refreshActiveScreenshareOptions() {
 
     if (screensharePatcher) {
         screensharePatcher.forceUpdateTransportationOptions();
-        if (screensharePatcher.hasActiveDesktopSource()) {
-            screensharePatcher.forceUpdateDesktopEncodingOptions();
-            screensharePatcher.forceUpdateDesktopSourceOptions();
+        if (screensharePatcher.hasActiveDesktopSource?.()) {
+            screensharePatcher.forceUpdateDesktopEncodingOptions?.();
+            screensharePatcher.forceUpdateDesktopSourceOptions?.();
         }
     }
 
-    if (screenshareAudioPatcher)
+    if (screenshareAudioPatcher) {
         screenshareAudioPatcher.forceUpdateTransportationOptions();
+    }
 }
 
 function notifyQuickSettingsChange(label: string) {
@@ -178,10 +178,11 @@ function getActiveQualityPreset(profile: NamedScreenshareProfile, customPresets:
 }
 
 function getCustomQualityPresets() {
-    const { getProfiles } = screenshareStore.get();
-    const presets: QuickQualityPreset[] = [];
+    const store = screenshareStore?.get();
+    if (!store) return [];
 
-    for (const profile of getProfiles(false)) {
+    const presets: QuickQualityPreset[] = [];
+    for (const profile of store.getProfiles(false)) {
         const preset = profileToQualityPreset(profile);
         if (preset) presets.push(preset);
     }
@@ -190,8 +191,10 @@ function getCustomQualityPresets() {
 }
 
 function getSuggestedQualityPresetName(preset: QuickQualityPreset) {
-    const { getProfiles } = screenshareStore.get();
-    const names = new Set(getProfiles(true).map(profile => profile.name));
+    const store = screenshareStore?.get();
+    if (!store) return `${preset.height}p${preset.framerate} ${preset.videoBitrate} kbps`;
+
+    const names = new Set(store.getProfiles(true).map(profile => profile.name));
     const base = `${preset.height}p${preset.framerate} ${preset.videoBitrate} kbps`;
 
     if (!names.has(base)) return base;
@@ -203,7 +206,9 @@ function getSuggestedQualityPresetName(preset: QuickQualityPreset) {
 }
 
 function saveCustomQualityPreset(name: string, preset: QuickQualityPreset) {
-    const store = screenshareStore.get();
+    const store = screenshareStore?.get();
+    if (!store) return;
+
     const profile = {
         ...store.currentProfile,
         name,
@@ -222,7 +227,7 @@ function saveCustomQualityPreset(name: string, preset: QuickQualityPreset) {
 }
 
 function updateCurrentProfile(profile: Partial<NamedScreenshareProfile>) {
-    screenshareStore.get().setCurrentProfile(currentProfile => ({
+    screenshareStore?.get()?.setCurrentProfile(currentProfile => ({
         ...currentProfile,
         ...profile
     }));
@@ -236,9 +241,10 @@ interface CreateQualityPresetModalProps {
 function CreateQualityPresetModal({ modalProps, preset }: CreateQualityPresetModalProps) {
     const [name, setName] = useState(() => getSuggestedQualityPresetName(preset));
     const trimmedName = name.trim();
-    const { getDefaultProfiles, getProfiles } = screenshareStore.get();
-    const isReservedName = quickQualityPresetNames.has(trimmedName) || getDefaultProfiles().some(profile => profile.name === trimmedName);
-    const alreadyExists = getProfiles(false).some(profile => profile.name === trimmedName);
+    const store = screenshareStore?.get();
+
+    const isReservedName = quickQualityPresetNames.has(trimmedName) || (store?.getDefaultProfiles().some(profile => profile.name === trimmedName) ?? false);
+    const alreadyExists = store?.getProfiles(false).some(profile => profile.name === trimmedName) ?? false;
 
     return (
         <Modal
@@ -278,7 +284,10 @@ function CreateQualityPresetModal({ modalProps, preset }: CreateQualityPresetMod
 }
 
 function openCreateQualityPresetModal() {
-    const preset = profileToQualityPreset({ ...screenshareStore.get().currentProfile, name: "" });
+    const currentProfile = screenshareStore?.get()?.currentProfile;
+    if (!currentProfile) return;
+
+    const preset = profileToQualityPreset({ ...currentProfile, name: "" });
 
     if (!preset) {
         showToast("Set resolution, framerate and video bitrate before saving a preset.", Toasts.Type.FAILURE);
@@ -332,11 +341,15 @@ function applyVideoBitrate(videoBitrate?: number) {
 
 const streamContextPatch: NavContextMenuPatchCallback = (children, props: StreamContextProps) => {
     const user = UserStore.getCurrentUser();
-    if (!user || props.stream.ownerId !== user.id) return;
+    if (!user || props?.stream?.ownerId !== user.id) return;
 
-    const { currentProfile } = screenshareStore.get();
+    const store = screenshareStore?.get();
+    if (!store) return;
+
+    const { currentProfile } = store;
     const customQualityPresets = getCustomQualityPresets();
     const activeQualityPreset = getActiveQualityPreset(currentProfile, customQualityPresets);
+
     const menuItem = (
         <Menu.MenuItem
             id="better-screenshare-settings"
@@ -471,6 +484,7 @@ function patchStreamQuality(opts: StreamQualityOptions) {
         videoBitrateEnabled,
         width
     } = currentProfile;
+
     const next = { ...opts };
     let capture = opts.capture ? { ...opts.capture } : undefined;
     let encode = opts.encode ? { ...opts.encode } : undefined;
@@ -540,7 +554,7 @@ function patchDisplayedStreamParticipant<T>(participant: T): T {
     if (!isRecord(participant) || !screenshareStore) return participant;
 
     const { stream } = participant;
-    if (!isRecord(stream) || stream.ownerId !== UserStore.getCurrentUser().id) return participant;
+    if (!isRecord(stream) || stream.ownerId !== UserStore.getCurrentUser()?.id) return participant;
 
     const { currentProfile } = screenshareStore.get();
     const {
@@ -550,6 +564,7 @@ function patchDisplayedStreamParticipant<T>(participant: T): T {
         resolutionEnabled,
         width
     } = currentProfile;
+
     let next: Record<string, unknown> | undefined;
 
     if (framerateEnabled && framerate)
@@ -605,12 +620,11 @@ const BetterScreenshare = definePlugin({
     enabledByDefault: false,
     dependencies: ["PhilsPluginLibrary"],
 
-    // Proprietà dell'istanza per il tracciamento dei timer e degli observer
     qualityObserver: null as MutationObserver | null,
     updateTimeout: null as ReturnType<typeof setTimeout> | null,
     unpatchChannelRTCStore: undefined as (() => void) | undefined,
-    screensharePatcher: null as any,
-    screenshareAudioPatcher: null as any,
+    screensharePatcher: null as IPatcher | null,
+    screenshareAudioPatcher: null as IPatcher | null,
 
     patches: [
         {
@@ -676,6 +690,7 @@ const BetterScreenshare = definePlugin({
 
         this.unpatchChannelRTCStore?.();
         this.unpatchChannelRTCStore = patchChannelRTCStore();
+
         this.screensharePatcher = new ScreensharePatcher().patch();
         this.screenshareAudioPatcher = new ScreenshareAudioPatcher().patch();
 
@@ -688,17 +703,16 @@ const BetterScreenshare = definePlugin({
             const currentUserId = getCurrentUserId();
             if (!currentUserId) return;
 
-            const { currentProfile } = screenshareStore.get();
-            if (!currentProfile) return;
+            const store = screenshareStore?.get();
+            if (!store?.currentProfile) return;
 
-            const { resolutionEnabled, height, framerateEnabled, framerate } = currentProfile;
+            const { resolutionEnabled, height, framerateEnabled, framerate } = store.currentProfile;
 
             let newResolution = "";
             let newFps = "";
             if (resolutionEnabled && height) newResolution = `${height}p`;
             if (framerateEnabled && framerate) newFps = `${framerate}`;
 
-            // Aggiorna la barra dei controlli in alto
             const topBar = document.querySelector('[class*="topControls_"], [class*="controlSection_"]');
             if (topBar) {
                 const avatarImg = topBar.querySelector('img[class*="avatar__"]');
@@ -722,7 +736,6 @@ const BetterScreenshare = definePlugin({
                 }
             }
 
-            // Aggiorna i riquadri del video (Video Tiles)
             const myTiles = document.querySelectorAll(`[data-selenium-video-tile="${currentUserId}"]`);
             for (const tile of myTiles) {
                 const qualityContainer = tile.querySelector('[class*="streamQualityIndicator__"]');
@@ -745,7 +758,6 @@ const BetterScreenshare = definePlugin({
             this.updateTimeout = setTimeout(updateMyStreamQuality, 100);
         };
 
-        // Salva l'observer nell'istanza per poterne fare la disconnect in stop()
         this.qualityObserver = new MutationObserver(debouncedUpdate);
         this.qualityObserver.observe(document.body, {
             subtree: true,
@@ -760,6 +772,7 @@ const BetterScreenshare = definePlugin({
     stop(): void {
         this.unpatchChannelRTCStore?.();
         this.unpatchChannelRTCStore = undefined;
+
         this.screenshareAudioPatcher?.unpatch();
         this.screensharePatcher?.unpatch();
 
