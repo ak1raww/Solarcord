@@ -74,6 +74,12 @@ This plugin allows you to further customize your microphone, and hopefully make 
 
 </blockquote></details>
 
+<details><summary> SolarStream </summary><blockquote>
+
+This plugin allows you to further customize your screen sharing.
+
+</blockquote></details>
+
 <details><summary> SolarDetector </summary><blockquote>
 
 Alerts (toast/notification + sound) when staff join or leave your VC.
