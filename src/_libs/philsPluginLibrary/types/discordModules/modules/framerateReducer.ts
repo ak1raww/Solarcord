@@ -16,25 +16,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { classes } from "@utils/misc";
-import { Button } from "@webpack/common";
-import React, { JSX } from "react";
+import { Connection, VideoQualityManager } from ".";
 
-import { panelClasses } from "../../../philsPluginLibrary";
-
-export type IconComponent = <T extends { className: string; }>(props: T) => JSX.Element;
-export interface SettingsPanelButtonProps extends Partial<React.ComponentProps<typeof Button>> {
-    icon?: IconComponent;
-}
-
-export const SettingsPanelButton = (props: SettingsPanelButtonProps) => {
-    return (
-        <Button
-            size={Button.Sizes.SMALL}
-            className={classes(panelClasses.button, panelClasses.buttonColor)}
-            {...props}
-        >
-            {props.icon && <props.icon className={classes(panelClasses.buttonIcon)} />}
-        </Button>
-    );
+export type FramerateReducer = FramerateReducer_ & {
+    connection: Connection;
+    sinkWants: VideoQualityManager;
+    framerateReductionTimeout?: number;
+    handleSelfMute: (...args: any[]) => any;
+    handleSpeaking: (...args: any[]) => any;
+    __proto__: FramerateReducer_;
 };
+
+export interface FramerateReducer_ {
+    destroy: (...args: any[]) => any;
+    destroyFramerateScaleFactorTimers: (...args: any[]) => any;
+    initialize: (...args: any[]) => any;
+    updateRemoteWantsFramerate: (...args: any[]) => any;
+    userSpeakingChange: (...args: any[]) => any;
+}

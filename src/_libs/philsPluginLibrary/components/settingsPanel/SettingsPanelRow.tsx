@@ -16,15 +16,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Devs } from "@utils/constants";
+import { classes } from "@utils/misc";
+import React from "react";
 
-import * as types from "../../philsPluginLibrary/types/constants";
+import { panelClasses } from "../../discordModules";
 
-export const PluginInfo: types.PluginInfo = {
-    PLUGIN_NAME: "PhilsPluginLibrary",
-    DESCRIPTION: "A library for phil's plugins",
-    AUTHOR: {
-        ...Devs.phil,
-        github: "https://github.com/philhk"
-    },
-} as const;
+export interface SettingsPanelRowProps {
+    children: React.ComponentProps<"div">["children"];
+}
+
+export const SettingsPanelRow = ({ children }: SettingsPanelRowProps) => {
+    return (
+        <div
+            className={classes(panelClasses.actionButtons)}
+            style={{ padding: 0 }}
+        >
+            {children}
+        </div>
+    );
+};

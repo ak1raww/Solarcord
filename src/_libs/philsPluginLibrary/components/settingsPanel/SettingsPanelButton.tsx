@@ -16,9 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { LazyComponent } from "@utils/react";
-import { findByCode } from "@webpack";
+import { classes } from "@utils/misc";
+import { Button } from "@webpack/common";
+import React, { JSX } from "react";
 
-import { types } from "../../philsPluginLibrary";
+import { panelClasses } from "../..";
 
-export const UserSummaryItem = LazyComponent<React.ComponentProps<types.UserSummaryItem>>(() => findByCode("defaultRenderUser", "showDefaultAvatarsForNullUsers"));
+export type IconComponent = <T extends { className: string; }>(props: T) => JSX.Element;
+export interface SettingsPanelButtonProps extends Partial<React.ComponentProps<typeof Button>> {
+    icon?: IconComponent;
+}
+
+export const SettingsPanelButton = (props: SettingsPanelButtonProps) => {
+    return (
+        <Button
+            size={Button.Sizes.SMALL}
+            className={classes(panelClasses.button, panelClasses.buttonColor)}
+            {...props}
+        >
+            {props.icon && <props.icon className={classes(panelClasses.buttonIcon)} />}
+        </Button>
+    );
+};

@@ -19,10 +19,10 @@
 import { Flex } from "@components/Flex";
 import { Select, TextInput, useEffect, useState } from "@webpack/common";
 
-import { PluginSettings, ProfilableStore } from "../../../philsPluginLibrary";
-import { CopyButton, DeleteButton, NewButton, SaveButton } from "../../../philsPluginLibrary/components/buttons";
-import { SettingsModalCard } from "../../../philsPluginLibrary/components/settingsModal/SettingsModalCard";
-import { SettingsModalCardItem } from "../../../philsPluginLibrary/components/settingsModal/SettingsModalCardItem";
+import { PluginSettings, ProfilableStore } from "../..";
+import { CopyButton, DeleteButton, NewButton, SaveButton } from "../buttons";
+import { SettingsModalCard } from "./SettingsModalCard";
+import { SettingsModalCardItem } from "./SettingsModalCardItem";
 
 export interface SettingsModalProfilesCardProps<T extends PluginSettings = {}> extends React.ComponentProps<typeof SettingsModalCard> {
     profileableStore: ProfilableStore<T, any>;
