@@ -18,7 +18,7 @@
 
 import { filters, waitFor } from "@webpack";
 
-import * as types from "../../philsPluginLibrary/types";
+import * as types from "../types";
 
 export let utils: types.Utils;
 

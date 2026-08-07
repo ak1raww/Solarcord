@@ -21,7 +21,7 @@ import { UserAreaButton, type UserAreaRenderProps } from "@api/UserArea";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
-import { Emitter, MicrophoneSettingsIcon } from "../philsPluginLibrary";
+import { Emitter, MicrophoneSettingsIcon } from "../../_libs/philsPluginLibrary";
 import { PluginInfo } from "../solarcordBetterMic/constants";
 import { openMicrophoneSettingsModal } from "../solarcordBetterMic/modals";
 import { MicrophonePatcher } from "../solarcordBetterMic/patchers";

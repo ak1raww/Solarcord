@@ -20,9 +20,9 @@ import { Flex } from "@components/Flex";
 import { Text } from "@webpack/common";
 import React from "react";
 
-import { AuthorUserSummaryItem } from "../../philsPluginLibrary/components/AuthorSummaryItem";
-import { Author, Contributor } from "../../philsPluginLibrary/types";
-import { openURL } from "../../philsPluginLibrary/utils";
+import { AuthorUserSummaryItem } from "./AuthorSummaryItem";
+import { Author, Contributor } from "../types";
+import { openURL } from "../utils";
 
 export interface ContributorAuthorSummaryProps {
     author?: Author;

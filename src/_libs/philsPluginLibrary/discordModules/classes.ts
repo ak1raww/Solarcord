@@ -16,22 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { classes } from "@utils/misc";
-import React from "react";
+import { findByPropsLazy } from "@webpack";
 
-import { panelClasses } from "../../../philsPluginLibrary/discordModules";
+import * as types from "../types";
 
-export interface SettingsPanelRowProps {
-    children: React.ComponentProps<"div">["children"];
-}
+export const panelClasses: types.PanelClasses = findByPropsLazy("button", "buttonContents", "buttonColor");
 
-export const SettingsPanelRow = ({ children }: SettingsPanelRowProps) => {
-    return (
-        <div
-            className={classes(panelClasses.actionButtons)}
-            style={{ padding: 0 }}
-        >
-            {children}
-        </div>
-    );
-};
+// waitFor(filters.byProps("button", "buttonContents", "buttonColor"), result => panelClasses = result);

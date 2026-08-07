@@ -16,19 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { React } from "@webpack/common";
+import { Devs } from "@utils/constants";
 
-import { panelClasses } from "../../../philsPluginLibrary/discordModules";
+import * as types from "../types/constants";
 
-export interface SettingsPanelProps {
-    children: React.ComponentProps<"div">["children"];
-}
-
-export const SettingsPanel = ({ children }: SettingsPanelProps) => {
-    return (
-        <div
-            className={panelClasses.container}>
-            {children}
-        </div>
-    );
-};
+export const PluginInfo: types.PluginInfo = {
+    PLUGIN_NAME: "PhilsPluginLibrary",
+    DESCRIPTION: "A library for phil's plugins",
+    AUTHOR: {
+        ...Devs.phil,
+        github: "https://github.com/philhk"
+    },
+} as const;
