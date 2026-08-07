@@ -598,12 +598,20 @@ function patchChannelRTCStore() {
 }
 
 const BetterScreenshare = definePlugin({
-    name: "BetterScreenshare",
+    name: "SolarStream",
     description: "This plugin allows you to further customize your screen sharing.",
     authors: [Devs.phil],
     tags: ["Voice", "Customisation"],
     enabledByDefault: false,
     dependencies: ["PhilsPluginLibrary"],
+
+    // Proprietà dell'istanza per il tracciamento dei timer e degli observer
+    qualityObserver: null as MutationObserver | null,
+    updateTimeout: null as ReturnType<typeof setTimeout> | null,
+    unpatchChannelRTCStore: undefined as (() => void) | undefined,
+    screensharePatcher: null as any,
+    screenshareAudioPatcher: null as any,
+
     patches: [
         {
             find: "GoLiveModal: user cannot be undefined",
@@ -647,6 +655,7 @@ const BetterScreenshare = definePlugin({
             }
         }
     ],
+
     settings: definePluginSettings({
         hideDefaultSettings: {
             type: OptionType.BOOLEAN,
@@ -654,20 +663,21 @@ const BetterScreenshare = definePlugin({
             default: true,
         }
     }),
+
     contextMenus: {
         "stream-context": streamContextPatch,
         "manage-streams": screenshareContextMenuPatch,
         "stream-options": screenshareContextMenuPatch,
     },
+
     start(): void {
         initScreenshareStore();
         initScreenshareAudioStore();
+
         this.unpatchChannelRTCStore?.();
         this.unpatchChannelRTCStore = patchChannelRTCStore();
         this.screensharePatcher = new ScreensharePatcher().patch();
         this.screenshareAudioPatcher = new ScreenshareAudioPatcher().patch();
-
-        let updateTimeout: ReturnType<typeof setTimeout> | null = null;
 
         const getCurrentUserId = (): string | null => {
             const user = UserStore.getCurrentUser();
@@ -679,6 +689,8 @@ const BetterScreenshare = definePlugin({
             if (!currentUserId) return;
 
             const { currentProfile } = screenshareStore.get();
+            if (!currentProfile) return;
+
             const { resolutionEnabled, height, framerateEnabled, framerate } = currentProfile;
 
             let newResolution = "";
@@ -686,6 +698,7 @@ const BetterScreenshare = definePlugin({
             if (resolutionEnabled && height) newResolution = `${height}p`;
             if (framerateEnabled && framerate) newFps = `${framerate}`;
 
+            // Aggiorna la barra dei controlli in alto
             const topBar = document.querySelector('[class*="topControls_"], [class*="controlSection_"]');
             if (topBar) {
                 const avatarImg = topBar.querySelector('img[class*="avatar__"]');
@@ -697,14 +710,19 @@ const BetterScreenshare = definePlugin({
                             const resolutionSpan = qualityContainer.querySelector('[class*="qualityResolution__"]');
                             const fpsSpan = resolutionSpan?.nextElementSibling;
                             if (resolutionSpan && fpsSpan) {
-                                if (newResolution && resolutionSpan.textContent !== newResolution) resolutionSpan.textContent = newResolution;
-                                if (newFps && fpsSpan.textContent !== `${newFps} FPS`) fpsSpan.textContent = `${newFps} FPS`;
+                                if (newResolution && resolutionSpan.textContent !== newResolution) {
+                                    resolutionSpan.textContent = newResolution;
+                                }
+                                if (newFps && fpsSpan.textContent !== `${newFps} FPS`) {
+                                    fpsSpan.textContent = `${newFps} FPS`;
+                                }
                             }
                         }
                     }
                 }
             }
 
+            // Aggiorna i riquadri del video (Video Tiles)
             const myTiles = document.querySelectorAll(`[data-selenium-video-tile="${currentUserId}"]`);
             for (const tile of myTiles) {
                 const qualityContainer = tile.querySelector('[class*="streamQualityIndicator__"]');
@@ -712,17 +730,22 @@ const BetterScreenshare = definePlugin({
                 const resolutionSpan = qualityContainer.querySelector('[class*="qualityResolution__"]');
                 const fpsSpan = resolutionSpan?.nextElementSibling;
                 if (resolutionSpan && fpsSpan) {
-                    if (newResolution && resolutionSpan.textContent !== newResolution) resolutionSpan.textContent = newResolution;
-                    if (newFps && fpsSpan.textContent !== `${newFps} FPS`) fpsSpan.textContent = `${newFps} FPS`;
+                    if (newResolution && resolutionSpan.textContent !== newResolution) {
+                        resolutionSpan.textContent = newResolution;
+                    }
+                    if (newFps && fpsSpan.textContent !== `${newFps} FPS`) {
+                        fpsSpan.textContent = `${newFps} FPS`;
+                    }
                 }
             }
         };
 
         const debouncedUpdate = () => {
-            if (updateTimeout) clearTimeout(updateTimeout);
-            updateTimeout = setTimeout(updateMyStreamQuality, 100);
+            if (this.updateTimeout) clearTimeout(this.updateTimeout);
+            this.updateTimeout = setTimeout(updateMyStreamQuality, 100);
         };
 
+        // Salva l'observer nell'istanza per poterne fare la disconnect in stop()
         this.qualityObserver = new MutationObserver(debouncedUpdate);
         this.qualityObserver.observe(document.body, {
             subtree: true,
@@ -733,18 +756,30 @@ const BetterScreenshare = definePlugin({
 
         updateMyStreamQuality();
     },
+
     stop(): void {
         this.unpatchChannelRTCStore?.();
         this.unpatchChannelRTCStore = undefined;
         this.screenshareAudioPatcher?.unpatch();
         this.screensharePatcher?.unpatch();
-        Emitter.removeAllListeners(PluginInfo.PLUGIN_NAME);
+
+        if (typeof Emitter !== "undefined") {
+            Emitter.removeAllListeners(PluginInfo.PLUGIN_NAME);
+        }
+
         this.qualityObserver?.disconnect();
-        if (this.updateTimeout) clearTimeout(this.updateTimeout);
+        this.qualityObserver = null;
+
+        if (this.updateTimeout) {
+            clearTimeout(this.updateTimeout);
+            this.updateTimeout = null;
+        }
     },
+
     toolboxActions: {
         "Open Screenshare Settings": openScreenshareModal
     },
+
     replacedSubmitFunction,
     GoLivePanelWrapper,
     patchGoLiveSource,
