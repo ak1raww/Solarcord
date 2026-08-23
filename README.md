@@ -28,13 +28,7 @@ TeamSpeak-style multi-user selection to Discord voice channels, letting you Ctrl
 
 <details><summary> SolarAutoCopyUserId </summary><blockquote>
 
-<<<<<<< HEAD
 Automatically copies user ID to clipboard via left-click or keybind on hover, with auto-focus, auto-paste, and floating ID pill support.
-=======
-```shell
-bash -c "$(curl -sS https://raw.githubusercontent.com/Equicord/Equilotl/refs/heads/main/install.sh)"
-```
->>>>>>> upstream/main
 
 </blockquote></details>
 
