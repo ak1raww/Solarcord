@@ -82,7 +82,7 @@ Automatically redeems Nitro gift links sent in chat.
 
 <details><summary> SolarVoiceButtons </summary><blockquote>
 
-Adds DM, Mute, and Deafen buttons next to every user in the voice panel. Server mute/deafen is applied when you have permission (for yourself too if serverSelf is enabled); otherwise, local mute/deafen is used.
+Adds DM, Mute, and Deafen buttons next to every user in the voice panel. Server mute/deafen is applied when you have permission (for yourself too if serverSelf is enabled); otherwise, local mute/deafen is used. Since the original dev of this plugin sucks, I made it better, and WORKING.
 
 </blockquote></details>
 

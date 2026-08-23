@@ -1,20 +1,32 @@
 .voice-user-buttons {
+    display: flex;
     flex: none !important;
+    gap: 4px !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
 }
 
 .voice-user-buttons-left {
     order: -1;
+    margin-left: 0 !important;
 }
 
 .voice-user-buttons-right {
     order: 1;
-    margin-left: 4px;
+    margin-left: 0 !important;
 }
 
 .voice-user-button-container {
-    padding-right: 4px;
+    padding-right: 0;
 }
 
 div[class*='list'][class*='collapsed'] .voice-user-buttons {
     display: none;
+}
+
+.voice-user-button-container button {
+    min-height: 24px !important;
+    height: 24px !important;
+    padding: 0 4px !important;
+    margin: 0 !important;
 }
