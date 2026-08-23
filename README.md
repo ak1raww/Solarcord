@@ -29,9 +29,6 @@ TeamSpeak-style multi-user selection to Discord voice channels, letting you Ctrl
 <details><summary> SolarAutoCopyUserId </summary><blockquote>
 
 Automatically copies user ID to clipboard via left-click or keybind on hover, with auto-focus, auto-paste, and floating ID pill support.
-<details><summary> SolarAutoCopyUserId </summary><blockquote>
-
-Automatically copies user ID to clipboard via left-click or keybind on hover, with auto-focus, auto-paste, and floating ID pill support.
 
 </blockquote></details>
 
