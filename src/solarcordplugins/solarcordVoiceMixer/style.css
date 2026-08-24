@@ -1,0 +1,264 @@
+.vc-svm-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #FFF;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.vc-svm-btn:hover {
+    color: #FFF;
+    background-color: var(--background-modifier-hover);
+}
+
+.vc-svm-btn:active {
+    color: #FFF;
+    background-color: var(--background-modifier-active);
+}
+
+.vc-svm-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+}
+
+.vc-svm-header-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 4px;
+}
+
+.vc-svm-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFF;
+    flex: 1;
+}
+
+.vc-svm-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 8px;
+}
+
+.vc-svm-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    max-height: 620px;
+}
+
+.vc-svm-empty-state {
+    padding: 36px 0;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.vc-svm-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 14px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+}
+
+.vc-svm-user-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 150px;
+    max-width: 200px;
+    flex-shrink: 0;
+}
+
+.vc-svm-user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.vc-svm-displayname {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vc-svm-username {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vc-svm-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    justify-content: flex-end;
+}
+
+.vc-svm-slider-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+/* Position quick buttons below the slider */
+.vc-svm-quick-btn-overlay {
+    position: absolute;
+    bottom: -22px;
+    left: 0;
+    right: 0;
+    height: 18px;
+    pointer-events: none;
+}
+
+.vc-svm-quick-btn {
+    position: absolute;
+    transform: translateX(-50%);
+    pointer-events: auto;
+    width: 28px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 4px;
+    background-color: #1e1f22;
+    color: #FFF;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease;
+}
+
+.vc-svm-quick-btn[data-val="0"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="50"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="100"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="150"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="200"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="250"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="300"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="350"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn[data-val="400"] {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vc-svm-quick-btn:hover {
+    background-color: #2b2d31;
+    border-color: rgb(255 255 255 / 20%);
+    color: #FFF;
+}
+
+.vc-svm-quick-btn:active {
+    background-color: #35373c;
+    transform: translateX(-50%) scale(0.95);
+}
+
+.vc-svm-reset-button,
+.vc-svm-default-all-button {
+    height: 36px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid rgb(255 255 255 / 5%);
+    border-radius: 8px;
+    background-color: #1e1f22;
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease;
+}
+
+.vc-svm-reset-button {
+    width: 36px;
+    padding: 0;
+    flex: 0 0 36px;
+    border-radius: 12px;
+}
+
+.vc-svm-reset-button:hover,
+.vc-svm-default-all-button:hover {
+    background-color: #2b2d31;
+    border-color: rgb(255 255 255 / 10%);
+    color: #FFF;
+}
+
+.vc-svm-reset-button:active,
+.vc-svm-default-all-button:active {
+    background-color: #35373c;
+    transform: scale(0.95);
+}
+
+.vc-svm-reset-button:focus-visible,
+.vc-svm-default-all-button:focus-visible {
+    outline: 2px solid var(--focus-primary);
+    outline-offset: 2px;
+}
+
+.vc-svm-reset-button svg,
+.vc-svm-default-all-button svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+    stroke: #FFF;
+}
