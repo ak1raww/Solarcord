@@ -86,6 +86,12 @@ Adds DM, Mute, and Deafen buttons next to every user in the voice panel. Server 
 
 </blockquote></details>
 
+<details><summary> SolarVoiceMixer </summary><blockquote>
+
+Adds a voice mixer button to voice channels on hover to adjust individual user volumes. (It's a blue audio mixer icon on every voice channel)
+
+</blockquote></details>
+
 ---
 
 </blockquote></details>
