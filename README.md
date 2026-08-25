@@ -2,7 +2,7 @@
 
 [![Upstream](https://img.shields.io/badge/Upstream-Equicord-grey?style=flat)](https://github.com/Equicord/Equicord)
 
-Solarcord is a custom fork of [Equicord](https://github.com/Equicord/Equicord), focused on moderation workflows, utilities and quality-of-life improvements. This project comes along with a fork of [Equilotl](https://github.com/Equicord/Equilotl), for ease-of-use purposes, [Solari](https://github.com/ak1raww/Solari).
+Solarcord is a custom fork of [Equicord](https://github.com/Equicord/Equicord), focused on moderation workflows, utilities and quality-of-life improvements. This project comes along with a fork of [Equilotl](https://github.com/Equicord/Equilotl), for ease-of-use purposes, [Solari](#method-1-solari-recommended-in-99-of-cases).
 
 Rather than replacing Equicord, Solarcord builds on top of it by maintaining upstream compatibility and shipping additional features, embedded plugins and project-specific enhancements.
 
@@ -106,10 +106,10 @@ Adds a voice mixer button to voice channels on hover to adjust individual user v
 
 ### Linux:
 - Check the [latest release](https://github.com/ak1raww/Solari/releases/latest).
-Sometimes releases for Linux may break, if that's the case, [build from source](#bfs-method).
+Sometimes releases for Linux may break, if that's the case, [build from source](#method-2-build-it-yourself-from-source).
 
 ### MacOS:
-Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, there is no official Solarcord release for MacOS. But you can still use Solarcord by building from source (next step).
+Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, there is no official Solarcord release for MacOS. But you can still use Solarcord by [building from source](#method-2-build-it-yourself-from-source).
 
 ---
 
