@@ -6,13 +6,9 @@ Solarcord is a custom fork of [Equicord](https://github.com/Equicord/Equicord), 
 
 Rather than replacing Equicord, Solarcord builds on top of it by maintaining upstream compatibility and shipping additional features, embedded plugins and project-specific enhancements.
 
-## Features
+## FYI
 
-- Tracks the latest Equicord upstream.
-- Custom plugins and patches.
-- Automated upstream synchronization.
-- Embedded third-party plugins.
-- Built for long-term maintainability.
+This repository it's automatically synced to the Equicord upstream, that means, Solarcord will always have the latest Equicord patches & updates.
 
 ## Included Plugins
 
@@ -88,7 +84,7 @@ Adds DM, Mute, and Deafen buttons next to every user in the voice panel. Server 
 
 <details><summary> SolarVoiceMixer </summary><blockquote>
 
-Adds a voice mixer button to voice channels on hover to adjust individual user volumes. (It's a blue audio mixer icon on every voice channel)
+Adds a voice mixer button to voice channels on hover to adjust individual user volumes. (It's a white audio mixer icon on every voice channel)
 
 </blockquote></details>
 
@@ -96,10 +92,9 @@ Adds a voice mixer button to voice channels on hover to adjust individual user v
 
 </blockquote></details>
 
-## Installing Solarcord
----
+# Installing Solarcord
 
-### Method 1: Solari (RECOMMENDED IN 99% OF CASES)
+## Method 1: Solari (RECOMMENDED IN 99% OF CASES)
 
 [Solari](https://github.com/ak1raww/Solari) is a fork of [Equilotl](https://github.com/Equicord/Equilotl) (the official installer for [Equicord](https://github.com/Equicord/Equicord)), modified **specifically** for **syncing** and installing **Solarcord** while **keeping both official updates** from **Equicord** and **Solarcord**.
 
@@ -111,17 +106,31 @@ Adds a voice mixer button to voice channels on hover to adjust individual user v
 
 ### Linux:
 - Check the [latest release](https://github.com/ak1raww/Solari/releases/latest).
+Sometimes releases for Linux may break, if that's the case, [build from source](#bfs-method).
+
+### MacOS:
+Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, there is no official Solarcord release for MacOS. But you can still use Solarcord by building from source (next step).
+
 ---
 
-### Method 2: Build it yourself
+## Method 2: Build it yourself (from source)
+
+> [!WARNING]
+> **macOS & Core Developers Only**
+> This method is intended strictly for macOS users, developers inspecting the codebase, or those building custom plugins alongside Solarcord.
+
+> [!CAUTION]
+> Building from source disables automatic updates from the official repositories. You must manually rebuild every time you make changes or want updates. If you are not in one of these scenarios, please stick with [**Solari**](#method-1-solari-recommended-in-99-of-cases).
 
 ### Dependencies
 
-The following software is required:
-
-- [Git](https://git-scm.com/download)
-- [Node.js LTS](https://nodejs.org/)
-- `pnpm`
+> [!IMPORTANT]
+>
+> The following software is required (install in order):
+> - [Git](https://git-scm.com/download)
+> - [Node.js LTS](https://nodejs.org/)
+> - `pnpm`
+>
 
 Install `pnpm` globally:
 
@@ -129,7 +138,7 @@ Install `pnpm` globally:
 npm install -g pnpm
 ```
 
-> [!WARNING]
+> [!CAUTION]
 > Do not continue using an administrator/root shell after installing `pnpm`.
 > Building or injecting from an elevated shell may corrupt your Discord installation.
 
@@ -146,19 +155,6 @@ cd Solarcord
 pnpm install --frozen-lockfile
 ```
 
-Synchronize with **Equicord** upstream:
-
-```sh
-pnpm sync:all
-```
-
-This command:
-
-- updates the Equicord upstream;
-- applies Solarcord patches;
-- synchronizes bundled plugins;
-- keeps the repository ready to build.
-
 Build:
 
 ```sh
@@ -170,7 +166,11 @@ Inject into Discord:
 ```sh
 pnpm inject
 ```
+
 ### Congrats, installation is done.
+
+> [!TIP]
+> Only run `pnpm inject` once. Unless Discord updates overwrite your installation or you run `pnpm uninject`, you only need to run `pnpm build` after making changes to the local source code. After building, press <kbd>Ctrl</kbd> + <kbd>R</kbd> in your patched Discord app to reload and view your changes.
 
 ---
 ## EXTRA
