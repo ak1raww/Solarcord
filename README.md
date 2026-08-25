@@ -58,7 +58,7 @@ Automatically hides sensitive chat content (messages, media, usernames) with blu
 
 </blockquote></details>
 
-<details><summary> FakeMuteAndDefean (full credits to ImHisako)</summary><blockquote>
+<details><summary> FakeMuteAndDeafen (full credits to ImHisako)</summary><blockquote>
 
 Lets you fake your mute, deafen, and camera status in voice channels, appearing muted/deafened to others while still being able to speak and be heard.
 
