@@ -6,9 +6,11 @@ Solarcord is a custom fork of [Equicord](https://github.com/Equicord/Equicord), 
 
 Rather than replacing Equicord, Solarcord builds on top of it by maintaining upstream compatibility and shipping additional features, embedded plugins and project-specific enhancements.
 
+> **New to this ecosystem?** [Vencord](https://github.com/Vendicated/Vencord) is the base client mod. [Equicord](https://github.com/Equicord/Equicord) forked Vencord and added more plugins. Solarcord forked Equicord, added own plugins & moderation tools.
+
 ## FYI
 
-This repository it's automatically synced to the Equicord upstream, that means, Solarcord will always have the latest Equicord patches & updates.
+This repository is automatically synced with the Equicord upstream, meaning Solarcord will always have the latest Equicord patches and updates.
 
 ## Included Plugins
 
@@ -78,7 +80,7 @@ Automatically redeems Nitro gift links sent in chat.
 
 <details><summary> SolarVoiceButtons </summary><blockquote>
 
-Adds DM, Mute, and Deafen buttons next to every user in the voice panel. Server mute/deafen is applied when you have permission (for yourself too if serverSelf is enabled); otherwise, local mute/deafen is used. Since the original dev of this plugin sucks, I made it better, and WORKING.
+Adds DM, Mute, and Deafen buttons next to every user in the voice panel. Server mute/deafen is applied when you have permission (for yourself too if serverSelf is enabled); otherwise, local mute/deafen is used. Rewritten from the original plugin to fix stability issues and ensure it works correctly.
 
 </blockquote></details>
 
@@ -88,15 +90,17 @@ Adds a voice mixer button to voice channels on hover to adjust individual user v
 
 </blockquote></details>
 
----
-
 </blockquote></details>
+
+---
 
 # Installing Solarcord
 
 ## Method 1: Solari (RECOMMENDED IN 99% OF CASES)
 
 [Solari](https://github.com/ak1raww/Solari) is a fork of [Equilotl](https://github.com/Equicord/Equilotl) (the official installer for [Equicord](https://github.com/Equicord/Equicord)), modified **specifically** for **syncing** and installing **Solarcord** while **keeping both official updates** from **Equicord** and **Solarcord**.
+
+Solari ships prebuilt executables for **Windows** and **Linux**. There is no official **macOS** build; macOS users must [build from source](#method-2-build-it-yourself-from-source) instead.
 
 ### Direct downloads:
 
@@ -129,39 +133,45 @@ Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, 
 > The following software is required (install in order):
 > - [Git](https://git-scm.com/download)
 > - [Node.js LTS](https://nodejs.org/)
-> - `pnpm`
+> - `pnpm` (Needs Node.js)
 >
 
-Install `pnpm` globally:
+After you installed the components above, **make a new folder** in your desired location, then open a **Terminal** (CMD) in that directory, then:
+
+Install `pnpm` **globally**:
 
 ```sh
 npm install -g pnpm
 ```
 
 > [!CAUTION]
-> Do not continue using an administrator/root shell after installing `pnpm`.
+> Do not continue using an administrator/root shell **after** installing `pnpm`.
 > Building or injecting from an elevated shell may corrupt your Discord installation.
+>
+> **If you have an open Terminal with Administrator, close it, and open it normally without Admin privileges.**
 
-Clone **Solarcord**:
+### Proceed with:
+
+Cloning **Solarcord**:
 
 ```sh
 git clone https://github.com/ak1raww/Solarcord.git
 cd Solarcord
 ```
 
-**Install** dependencies:
+**Installing** dependencies:
 
 ```sh
 pnpm install --frozen-lockfile
 ```
 
-Build:
+Building:
 
 ```sh
 pnpm build
 ```
 
-Inject into Discord:
+Injecting into Discord:
 
 ```sh
 pnpm inject
@@ -181,6 +191,42 @@ pnpm buildWeb
 ```
 
 The generated extension archives are available inside the `dist/` directory.
+
+To load the unpacked extension for testing:
+
+- **Chrome/Edge**: go to `chrome://extensions`, enable **Developer mode**, click **Load unpacked**, and select the extracted `dist/` folder.
+- **Firefox**: go to `about:debugging#/runtime/this-firefox`, click **Load Temporary Add-on**, and select the `manifest.json` file inside the extracted `dist/` folder.
+
+---
+
+## Uninstalling
+
+If you built from source and want to remove Solarcord:
+
+```sh
+pnpm uninject
+```
+
+This restores Discord to stock. Run once; no rebuild needed afterward.
+
+If installed via **Solari**, re-run Solari, pick the **uninstall** option.
+
+---
+
+## Troubleshooting
+
+**Discord update broke a plugin, Solarcord isn't there anymore or won't load?**
+
+1. Close Discord fully (check taskbar/tray).
+2. If you installed Solarcord with Solari, **re-run** [Solari Installation](#method-1-solari-recommended-in-99-of-cases).
+If you installed Solarcord from source, run `pnpm build` & `pnpm inject` again.
+3. Restart Discord.
+
+**A plugin is missing after an update?**
+Solarcord auto-syncs itself with Equicord upstream, so this shouldn't happen. If it does, try a clean install and contact me on [Telegram](https://t.me/narniainside).
+
+**Still broken?**
+[Contact me on Telegram](https://t.me/narniainside), with error or log details.
 
 ---
 
