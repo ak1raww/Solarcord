@@ -102,17 +102,94 @@ Adds a voice mixer button to voice channels on hover to adjust individual user v
 
 Solari ships prebuilt executables for **Windows** and **Linux**. There is no official **macOS** build; macOS users must [build from source](#method-2-build-it-yourself-from-source) instead.
 
-### Direct downloads:
+# Direct downloads:
 
-### Windows:
+## Windows:
 - [SolariCli.exe](https://github.com/ak1raww/Solari/releases/download/latest/SolariCli.exe) (recommended, easier).
 - [Solari.exe](https://github.com/ak1raww/Solari/releases/download/latest/Solari.exe) (GUI).
 
-### Linux:
-- Check the [latest release](https://github.com/ak1raww/Solari/releases/latest).
-Sometimes releases for Linux may break, if that's the case, [build from source](#method-2-build-it-yourself-from-source).
+## Linux:
 
-### MacOS:
+Solari provides prebuilt binaries for Linux to install and patch Solarcord into your Discord client.
+
+### 1. Download the Correct Installer Binary
+
+Head to the [latest Solari releases](https://github.com/ak1raww/Solari/releases/latest) and pick the binary for your setup:
+
+|Binary|Description|
+|---|---|
+|`Solari`|Universal GUI binary built with both X11 and Wayland support.|
+|`Solari-wayland`|Optimized GUI installer specifically for native Wayland sessions.|
+|`Solari-x11`|Optimized GUI installer for pure X11 sessions.|
+|`SolariCli-linux`|Terminal-based installer if you prefer running it from the command line.|
+
+### 2. Make the Installer Executable
+
+> [!IMPORTANT]
+By default, downloaded binaries do not have execution permissions.
+
+Open your terminal in your Downloads folder (or wherever you saved the binary) and run:
+
+```sh
+chmod +x Solari*
+```
+
+Run the binary by double-clicking it in your file manager or launching it from the terminal:
+
+```sh
+./Solari
+# or ./SolariCli-linux
+```
+
+### Distribution Recommendations & Wayland Setup
+
+<details><summary> Arch-Based Distributions (Arch, Manjaro, EndeavourOS) </summary><blockquote>
+
+On Arch and Wayland desktop environments (Hyprland, Sway, KDE Wayland, GNOME Wayland), using **Discord Canary** is recommended for better stability and native Wayland integration. Install it via your package manager or AUR:
+
+```sh
+sudo pacman -S discord-canary
+```
+
+</blockquote></details> <details><summary> Ubuntu, Linux Mint, and Fedora </summary><blockquote>
+
+For Debian/Ubuntu-based distros (Mint, Pop!_OS, Ubuntu) and Fedora, the standard `.deb`, `.rpm`, or official tarball installs work best with Solari.
+
+</blockquote></details>
+
+### Optional: Enabling Native Wayland Flags
+
+> [!TIP]
+If you experience screen-sharing issues, missing window decorations, or auto-idle bugs under Wayland, pass Electron Ozone flags to Discord.
+
+Copy the desktop entry to your local applications directory:
+
+For **Discord Stable**:
+
+```sh
+mkdir -p ~/.local/share/applications
+cp /usr/share/applications/discord.desktop ~/.local/share/applications/
+```
+
+For **Discord Canary**:
+
+```sh
+mkdir -p ~/.local/share/applications
+cp /usr/share/applications/discord-canary.desktop ~/.local/share/applications/
+```
+
+Edit the copied file (e.g., `nano ~/.local/share/applications/discord-canary.desktop`) and locate the `Exec=` line.
+
+Append the Ozone flags to force native Wayland rendering:
+
+```ini
+Exec=/usr/bin/discord-canary --enable-features=UseOzonePlatform --ozone-platform=wayland %U
+```
+
+
+Sometimes releases for Linux may break, if that's the case, [build from source](#method-2-build-it-yourself-from-source) and [contact me on Telegram](https://t.me/narniainside) for issues.
+
+## MacOS:
 Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, there is no official Solarcord release for MacOS. But you can still use Solarcord by [building from source](#method-2-build-it-yourself-from-source).
 
 ---
