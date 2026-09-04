@@ -69,7 +69,6 @@ jobs:
                   rm -f release/package.json
                   rm -f release/*.map
 
-            # Pacchettizza la build in uno ZIP pronto per Linux/Desktop
             - name: Create Linux Zip Bundle
               run: |
                   cd dist/release
@@ -79,7 +78,7 @@ jobs:
               uses: softprops/action-gh-release@v2
               with:
                   tag_name: "latest"
-                  name: "Solarcord Nightly Build"
+                  name: "latest"
                   body: "Build automatica aggiornata all'ultimo commit di `main`."
                   files: |
                       solarcord-build-linux.zip
