@@ -1,8 +1,10 @@
-name: Release
+name: Solarcord Automatic Release
+
 on:
     push:
         branches:
             - main
+    workflow_dispatch:
 
 env:
     FORCE_COLOR: true
@@ -13,16 +15,16 @@ permissions:
 
 jobs:
     Build:
-        name: Build Solarcord
+        name: Build and Release Solarcord
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v7
+            - uses: actions/checkout@v4
 
-            - uses: pnpm/action-setup@v6
+            - uses: pnpm/action-setup@v3
 
             - name: Use Node.js 24
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v4
               with:
                   node-version: 24
                   cache: "pnpm"
@@ -48,30 +50,40 @@ jobs:
                   cd dist
                   mkdir release
 
-                  cp browser/browser.* release
-                  cp Equicord.user.{js,js.LEGAL.txt} release
+                  cp browser/browser.* release 2>/dev/null || true
+                  cp Equicord.user.{js,js.LEGAL.txt} release 2>/dev/null || true
 
-                  # copy the plugin data jsons, the extension zips and the desktop/equibop asars
-                  cp *.{json,zip,asar} release
+                  # Copia i plugin json, gli zip delle estensioni e i file asar
+                  cp *.{json,zip,asar} release 2>/dev/null || true
 
-                  # legacy un-asared files
-                  cp desktop/* release
+                  # Copia eventuali file desktop
+                  cp desktop/* release 2>/dev/null || true
                   for file in equibop/*; do
-                    filename=$(basename "$file")
-                    cp "$file" "release/equibop${filename^}"
+                    if [ -f "$file" ]; then
+                      filename=$(basename "$file")
+                      cp "$file" "release/equibop${filename^}"
+                    fi
                   done
 
                   find release -size 0 -delete
-                  rm release/package.json
-                  rm release/*.map
+                  rm -f release/package.json
+                  rm -f release/*.map
 
-            - name: Upload Solarcord Stable
+            # Pacchettizza la build in uno ZIP pronto per Linux/Desktop
+            - name: Create Linux Zip Bundle
+              run: |
+                  cd dist/release
+                  zip -r ../../solarcord-build-linux.zip ./*
+
+            - name: Upload to GitHub Releases
               uses: softprops/action-gh-release@v2
               with:
-                  tag_name: latest
-                  name: "latest"
-                  body: "Automated Solarcord build"
-                  files: dist/release/*
+                  tag_name: "latest"
+                  name: "Solarcord Nightly Build"
+                  body: "Build automatica aggiornata all'ultimo commit di `main`."
+                  files: |
+                      solarcord-build-linux.zip
+                      dist/release/*
                   overwrite: true
                   prerelease: false
               env:

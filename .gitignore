@@ -4,6 +4,7 @@ node_modules
 .vars
 .secrets
 .input
+.vscode
 
 *.exe
 vencord_installer
