@@ -5,10 +5,11 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { Button } from "@components/Button";
 import { SolarcordDevs } from "@utils/constants";
 import { copyWithToast, insertTextIntoChatInputBox, openUserProfile } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { Button, ComponentDispatch, useState } from "@webpack/common";
+import { ComponentDispatch, useState } from "@webpack/common";
 
 function KeybindComponent({ setValue }: { setValue(val: string): void }) {
     const [isRecording, setIsRecording] = useState(false);
@@ -28,16 +29,16 @@ function KeybindComponent({ setValue }: { setValue(val: string): void }) {
     return (
         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
             <Button
-                size={Button.Sizes.SMALL}
-                color={isRecording ? Button.Colors.RED : Button.Colors.BRAND}
+                size="small"
+                variant={isRecording ? "dangerPrimary" : "primary"}
                 onClick={() => setIsRecording(true)}
                 onKeyDown={isRecording ? handleKeyDown : undefined}
             >
                 {isRecording ? "Press any key..." : `Key: ${key.toUpperCase()}`}
             </Button>
             <Button
-                size={Button.Sizes.SMALL}
-                color={Button.Colors.PRIMARY}
+                size="small"
+                variant="secondary"
                 onClick={() => setValue("c")}
             >
                 Reset

@@ -6,13 +6,13 @@
 
 import { showNotification } from "@api/Notifications";
 import { definePluginSettings } from "@api/Settings";
+import { Button } from "@components/Button";
 import { SolarcordDevs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { chooseFile } from "@utils/web";
 import { findStoreLazy } from "@webpack";
 import {
-    Button,
     ChannelStore,
     GuildMemberStore,
     GuildRoleStore,
@@ -20,7 +20,7 @@ import {
     IconUtils,
     PermissionsBits,
     React,
-    Toasts,
+    showToast,
     UserStore,
     VoiceStateStore,
 } from "@webpack/common";
@@ -127,11 +127,7 @@ function AudioUploadButton({ label, dataKey }: { label: string; dataKey: AudioDa
             settings.store[nameKey] = file.name;
             setFilename(file.name);
         } catch (error) {
-            Toasts.show({
-                message: "Could not load that audio file.",
-                id: Toasts.genId(),
-                type: Toasts.Type.FAILURE,
-            });
+            showToast({ text: "Could not load that audio file.", variant: "critical" });
             if (settings.store.enableLogs) logger.error("StaffDetector: audio upload failed:", error);
         }
     }
@@ -145,8 +141,8 @@ function AudioUploadButton({ label, dataKey }: { label: string; dataKey: AudioDa
     return (
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
             <Button
-                color={Button.Colors.PRIMARY}
-                size={Button.Sizes.SMALL}
+                variant="secondary"
+                size="small"
                 onClick={() => void handleClick()}
             >
                 {label}
@@ -155,8 +151,8 @@ function AudioUploadButton({ label, dataKey }: { label: string; dataKey: AudioDa
                 ? <>
                     <span style={{ fontSize: 11, color: "#9e9e9e", flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{filename}</span>
                     <Button
-                        color={Button.Colors.RED}
-                        size={Button.Sizes.SMALL}
+                        variant="dangerPrimary"
+                        size="small"
                         onClick={handleClear}
                     >
                         Clear
@@ -594,7 +590,7 @@ function getChannelContext(channelId: string): string {
 
 function notify(title: string, body: string, icon?: string): void {
     if (settings.store.showToasts)
-        Toasts.show({ message: `${title}  ${body}`, id: Toasts.genId(), type: Toasts.Type.MESSAGE });
+        showToast({ text: `${title}  ${body}` });
     if (settings.store.showNotifications)
         showNotification({ title, body, icon, permanent: false, onClick: () => { } });
 }

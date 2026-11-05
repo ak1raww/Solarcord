@@ -9,6 +9,7 @@ import {
     NavContextMenuPatchCallback
 } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
+import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { CogWheel } from "@components/Icons";
 import { SolarcordDevs } from "@utils/constants";
@@ -24,7 +25,6 @@ import definePlugin, { OptionType } from "@utils/types";
 import { Guild } from "@vencord/discord-types";
 import { findByCodeLazy, findByPropsLazy, findStoreLazy, mapMangledModuleLazy } from "@webpack";
 import {
-    Button,
     ChannelStore,
     Checkbox,
     GuildStore,
@@ -33,7 +33,6 @@ import {
     NavigationRouter,
     ScrollerThin,
     showToast,
-    Toasts,
     useMemo,
     UserStore,
     useStateFromStores
@@ -59,8 +58,8 @@ const collapsedChannels = findByPropsLazy("toggleCollapseGuild");
 function OpenBlacklistModalButton() {
     return (
         <Button
-            size={Button.Sizes.SMALL}
-            color={Button.Colors.BRAND}
+            size="small"
+            variant="primary"
             onClick={openBlacklistModal}
         >
             Server Notification Blacklist
@@ -71,11 +70,11 @@ function OpenBlacklistModalButton() {
 function ApplyToAllButton() {
     return (
         <Button
-            size={Button.Sizes.SMALL}
-            color={Button.Colors.GREEN}
+            size="small"
+            variant="positive"
             onClick={() => {
                 const count = applyToAllGuilds();
-                showToast(`Settings applied to ${count} servers.`, Toasts.Type.SUCCESS);
+                showToast({ text: `Settings applied to ${count} servers.`, variant: "success" });
             }}
         >
             Apply Guild Settings To All Servers
@@ -321,8 +320,8 @@ function GuildRow({ guild, isBlacklisted, onCloseModal }: GuildRowProps) {
                 </span>
             </div>
             <Button
-                size={Button.Sizes.SMALL}
-                color={Button.Colors.PRIMARY}
+                size="small"
+                variant="secondary"
                 onClick={handleNavigate}
                 style={{ marginLeft: "12px", flexShrink: 0 }}
             >
