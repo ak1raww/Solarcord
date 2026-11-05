@@ -18,13 +18,15 @@ import { openPluginModal, SettingsTab, wrapTab } from "@components/settings";
 import { QuickAction, QuickActionCard } from "@components/settings/QuickAction";
 import { SpecialCard } from "@components/settings/SpecialCard";
 import BadgeAPI from "@plugins/_api/badges";
+import NoTrack from "@plugins/_core/noTrack";
 import SettingsPlugin from "@plugins/_core/settings";
 import { gitRemote } from "@shared/vencordUserAgent";
 import { IS_WINDOWS } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
-import { Alerts, React } from "@webpack/common";
+import { promptToRestart } from "@utils/promptToRestart";
+import { GuildMemberStore, React, useMemo, UserStore } from "@webpack/common";
 
 import { DonateButtonComponent } from "./DonateButton";
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
@@ -42,16 +44,8 @@ type KeysOfType<Object, Type> = {
 }[keyof Object];
 
 function Switches() {
-    const settings = useSettings([
-        "useQuickCss",
-        "enableReactDevtools",
-        "mainWindowFrameless",
-        "frameless",
-        "winNativeTitleBar",
-        "transparent",
-        "winCtrlQ",
-        "disableMinSize"
-    ]);
+    const settings = useSettings(["useQuickCss", "enableReactDevtools", "mainWindowFrameless", "frameless", "nativeTitleBar", "noRoundCorners", "transparent", "winCtrlQ", "disableMinSize"]);
+    const { disableAnalytics } = NoTrack.settings.use(["disableAnalytics"]);
 
     const Switches = [
         {
@@ -59,27 +53,43 @@ function Switches() {
             title: "Enable Custom CSS",
             description: "Apply your configured QuickCSS"
         },
+        {
+            value: disableAnalytics,
+            updateSetting(newValue) {
+                NoTrack.settings.store.disableAnalytics = newValue;
+            },
+            reactKey: "NoTrack::disableAnalytics",
+            key: null!,
+            title: "Block Discord Analytics",
+            description: NoTrack.settings.def.disableAnalytics.description,
+            restartRequired: NoTrack.settings.def.disableAnalytics.restartNeeded,
+        },
         (!IS_WEB && !IS_DISCORD_DESKTOP || !IS_WINDOWS) && {
             key: "mainWindowFrameless",
             title: "Disable the Main Window Frame",
             description: "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.",
             restartRequired: true,
         },
-        !IS_WEB && (
-            !IS_DISCORD_DESKTOP || !IS_WINDOWS
-                ? {
-                    key: "frameless",
-                    title: "Disable All Window Frames",
-                    description: "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.",
-                    restartRequired: true,
-                }
-                : {
-                    key: "winNativeTitleBar",
-                    title: "Use Windows' native title bar instead of Discord's custom one",
-                    description: "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.",
-                    restartRequired: true,
-                }
+        !IS_WEB && (!IS_DISCORD_DESKTOP || !IS_WINDOWS
+            ? {
+                key: "frameless",
+                title: "Disable All Window Frames",
+                description: "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.",
+                restartRequired: true,
+            }
+            : {
+                key: "nativeTitleBar",
+                title: "Use Windows' native title bar instead of Discord's custom one",
+                description: "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.",
+                restartRequired: true,
+            }
         ),
+        IS_DISCORD_DESKTOP && {
+            key: "noRoundCorners",
+            title: "Disable Rounded Window Corners",
+            description: "Makes the corners of the Discord window squared instead of rounded.",
+            restartRequired: true
+        },
         !IS_WEB && {
             key: "transparent",
             title: "Enable Window Transparency",
@@ -109,21 +119,24 @@ function Switches() {
         },
     ] satisfies Array<false | {
         key: KeysOfType<typeof settings, boolean>;
+        reactKey?: string;
         title: string;
         description?: string;
         restartRequired?: boolean;
         warning?: string;
+        updateSetting?(newValue: boolean): void;
+        value?: boolean;
     }>;
 
     return Switches.map(setting => {
         if (!setting)
             return null;
 
-        const { key, title, description, restartRequired, warning } = setting;
+        const { reactKey, key, value, title, description, restartRequired, warning, updateSetting = v => (settings[key] = v) } = setting;
 
         return (
             <FormSwitch
-                key={key}
+                key={reactKey ?? key}
                 title={title}
                 description={
                     warning ? (
@@ -135,19 +148,13 @@ function Switches() {
                         </>
                     ) : description
                 }
-                value={settings[key]}
+                value={value ?? settings[key]}
                 hideBorder
                 onChange={v => {
-                    settings[key] = v;
+                    updateSetting(v);
 
                     if (restartRequired) {
-                        Alerts.show({
-                            title: "Restart Required",
-                            body: "A restart is required to apply this change",
-                            confirmText: "Restart now",
-                            cancelText: "Later!",
-                            onConfirm: relaunch
-                        });
+                        promptToRestart("relaunch");
                     }
                 }}
             />
