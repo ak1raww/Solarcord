@@ -96,11 +96,11 @@ Adds a voice mixer button to voice channels on hover to adjust individual user v
 
 # Installing Solarcord
 
-## Method 1: Solari (RECOMMENDED IN 99% OF CASES)
+## Method 1: Solari (Works best with Windows)
 
 [Solari](https://github.com/ak1raww/Solari) is a fork of [Equilotl](https://github.com/Equicord/Equilotl) (the official installer for [Equicord](https://github.com/Equicord/Equicord)), modified **specifically** for **syncing** and installing **Solarcord** while **keeping both official updates** from **Equicord** and **Solarcord**.
 
-Solari ships prebuilt executables for **Windows** and **Linux**. There is no official **macOS** build; macOS users must [build from source](#method-2-build-it-yourself-from-source) instead.
+Solari ships prebuilt executables for **Windows** and **Linux**. There is no official **macOS** build; macOS users must [build from source](#method-3-build-it-yourself-from-source) instead.
 
 # Direct downloads:
 
@@ -113,6 +113,9 @@ Solari ships prebuilt executables for **Windows** and **Linux**. There is no off
 Solari provides prebuilt binaries for Linux to install and patch Solarcord into your Discord client.
 
 ### 1. Download the Correct Installer Binary
+
+> [!IMPORTANT]
+**Before you go!** If you are on **Wayland** or Linux in general, I **highly** suggest you visit and **try** [Method 2 (Soly)](#method-2-soly) **first**!
 
 Head to the [latest Solari releases](https://github.com/ak1raww/Solari/releases/latest) and pick the binary for your setup:
 
@@ -187,14 +190,30 @@ Exec=/usr/bin/discord-canary --enable-features=UseOzonePlatform --ozone-platform
 ```
 
 
-Sometimes releases for Linux may break, if that's the case, [build from source](#method-2-build-it-yourself-from-source) and [contact me on Telegram](https://t.me/narniainside) for issues.
+Sometimes releases for Linux may break, if that's the case, [build from source](#method-3-build-it-yourself-from-source) and [contact me on Telegram](https://t.me/narniainside) for issues.
 
 ## MacOS:
-Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, there is no official Solarcord release for MacOS. But you can still use Solarcord by [building from source](#method-2-build-it-yourself-from-source).
+Unfortunately, since I'm not paying Apple (and I won't) to sign the executable, there is no official Solarcord release for MacOS. But you can still use Solarcord by [building from source](#method-3-build-it-yourself-from-source).
 
 ---
 
-## Method 2: Build it yourself (from source)
+## Method 2: Soly
+[Soly](https://github.com/ak1raww/Soly) is a fork of [Equibop](https://github.com/Equicord/Equibop) (itself based on [Vesktop](https://github.com/Vencord/Vesktop)) made for Solarcord. Instead of patching your installed Discord like Solari does, it is a **standalone Discord client** with **Solarcord preinstalled**.
+
+### Linux (mandatory for Wayland)
+
+Soly ships binaries for **every Linux distribution**, including Arch, Fedora and more. It adds patches and fixes for **Wayland** sessions, with **screen sharing with sound** working properly, all while being lighter and faster than the official Discord app and keeping Discord away from your system. Basically your go-to for Linux.
+
+### Windows
+
+Soly also runs on Windows, but the native client works better with everything there, so **Solari stays the recommended method**. Only use Soly on Windows if you have problems with the native client, or just want a lighter impact on your system resources.
+
+### Download Soly:
+Download it from the [Soly releases](https://github.com/ak1raww/Soly/releases) page.
+
+---
+
+## Method 3: Build it yourself (from source)
 
 > [!WARNING]
 > **macOS & Core Developers Only**
